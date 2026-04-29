@@ -9,7 +9,7 @@
   //   2. Formspree — set FORMSPREE_ID to your form's ID (e.g. "xpwrlbjk").
   // If both are blank the form will demo-succeed without sending data.
   // ============================================================
-  var FORM_ENDPOINT = ""; // e.g. "https://mobili-tee-form.your-account.workers.dev"
+  var FORM_ENDPOINT = "https://mobili-tee-form.chriswrazen.workers.dev";
   var FORMSPREE_ID = ""; // e.g. "xpwrlbjk"
 
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

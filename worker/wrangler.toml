@@ -6,7 +6,7 @@ compatibility_date = "2025-01-01"
 #   wrangler kv:namespace create SUBSCRIBERS
 [[kv_namespaces]]
 binding = "SUBSCRIBERS"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
+id = "fda858afe7a147f3a67c539d1b21cc70"
 
 # Secrets are set via the CLI, not here:
 #   wrangler secret put RESEND_API_KEY
