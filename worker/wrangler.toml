@@ -1,0 +1,14 @@
+name = "mobili-tee-form"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Replace the placeholder id below after running:
+#   wrangler kv:namespace create SUBSCRIBERS
+[[kv_namespaces]]
+binding = "SUBSCRIBERS"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# Secrets are set via the CLI, not here:
+#   wrangler secret put RESEND_API_KEY
+#   wrangler secret put NOTIFY_TO
+#   wrangler secret put NOTIFY_FROM
