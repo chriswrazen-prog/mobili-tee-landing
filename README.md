@@ -2,7 +2,21 @@
 
 A premium "coming soon" marketing page for **Mobili-Tee** — a private-club assisted stretching amenity launching at Radley Run Country Club in 2026.
 
-Plain HTML + CSS + a sliver of vanilla JS. No build step. Deploys to Cloudflare Pages by uploading the repo as-is.
+Plain HTML + CSS + a sliver of vanilla JS. No build step. Deploys to Cloudflare Pages.
+
+## Live URLs
+
+- Production: **https://mobili-tee.com** (and `www.mobili-tee.com`)
+- Pages preview: **https://mobili-tee.pages.dev**
+- Repo: **https://github.com/chriswrazen-prog/mobili-tee-landing**
+- Worker (form handler): `https://mobili-tee-form.chriswrazen.workers.dev`
+- Cloudflare Pages project: `mobili-tee` (account ID `dda40f649ee916dbb8b48ca351734918`)
+
+## Email pipeline (live)
+
+Form submission → Cloudflare Worker → Resend → `chriswrazen@gmail.com`.
+Submissions also persist in the Cloudflare KV namespace `SUBSCRIBERS` (id `fda858afe7a147f3a67c539d1b21cc70`).
+Sender: `Mobili-Tee <updates@mobili-tee.com>` (verified Resend domain).
 
 ---
 
@@ -102,9 +116,11 @@ var FORM_ENDPOINT = "https://mobili-tee-form.<your-account>.workers.dev";
 **To change the recipient later:**
 ```bash
 cd worker
-npx wrangler secret put NOTIFY_TO
+wrangler secret put NOTIFY_TO
 # paste the new address when prompted
 ```
+
+> ⚠️ Don't set `NOTIFY_TO` to anything `@mobili-tee.com` while Cloudflare Email Routing is enabled — Email Routing rejects mail where the sender and recipient share the same domain (loop prevention). Use an external address (gmail, your own Workspace mailbox on a different domain, etc.). If you later set up Google Workspace MX records on `mobili-tee.com`, that replaces Email Routing and you can use `notifications@mobili-tee.com` again.
 
 **To export collected emails:**
 ```bash
@@ -133,19 +149,24 @@ Then visit http://localhost:8000.
 
 ---
 
-## Deploying to Cloudflare Pages
+## Deployment
 
-Done once. After that, every `git push` to `main` deploys automatically.
+The Pages project is a **direct-upload** project (not git-connected at the Cloudflare side). Auto-deploy on `git push` is wired through a GitHub Actions workflow at [.github/workflows/deploy.yml](.github/workflows/deploy.yml) that runs `wrangler pages deploy` on every push to `main`.
 
-1. Push this repo to GitHub.
-2. In the Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-3. Pick the GitHub repo. Settings:
-   - **Framework preset:** None
-   - **Build command:** *(leave blank)*
-   - **Build output directory:** `/`
-4. Save and deploy. The first deploy takes ~30 seconds.
-5. **Custom domain:** in the new Pages project → **Custom domains** → **Set up a domain** → enter `mobili-tee.com` and `www.mobili-tee.com`. Cloudflare configures DNS automatically if the zone is on the same account.
-6. SSL provisions automatically.
+### Required GitHub Actions secrets
+
+In **github.com/chriswrazen-prog/mobili-tee-landing → Settings → Secrets and variables → Actions**:
+
+| Secret name             | Value                                               |
+| ----------------------- | --------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | Cloudflare API token with `Pages:Edit` permission   |
+| `CLOUDFLARE_ACCOUNT_ID` | `dda40f649ee916dbb8b48ca351734918`                  |
+
+### Manual deploy fallback
+
+```bash
+wrangler pages deploy . --project-name=mobili-tee --branch=main --commit-dirty=true
+```
 
 ---
 
