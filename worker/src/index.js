@@ -1,22 +1,24 @@
 /**
- * Mobili-Tee email capture Worker
+ * Mobili-Tee form handler Worker
  *
- * Stores submissions in a KV namespace and sends a notification via Resend.
- * Set the following bindings/secrets via `wrangler secret put`:
+ * Handles two payload types:
+ *   1. Email signup (default): { email, source, page, referrer }
+ *   2. Club briefing request:  { type: "briefing", name, club, role, email, message, page }
  *
- *   wrangler secret put RESEND_API_KEY
- *   wrangler secret put NOTIFY_TO        # e.g. notifications@mobili-tee.com
- *   wrangler secret put NOTIFY_FROM      # e.g. "Mobili-Tee <updates@mobili-tee.com>"
+ * Stores submissions in KV (prefixes "subscriber:" and "briefing:") and notifies via Resend.
  *
- * KV namespace binding: SUBSCRIBERS  (configured in wrangler.toml)
+ * Required secrets (set via `wrangler secret put`):
+ *   RESEND_API_KEY
+ *   NOTIFY_TO        e.g. chriswrazen@gmail.com
+ *   NOTIFY_FROM      e.g. "Mobili-Tee <updates@mobili-tee.com>"
  *
- * To change the recipient later, run:
- *   wrangler secret put NOTIFY_TO
+ * KV binding: SUBSCRIBERS (configured in wrangler.toml)
  */
 
 const ALLOWED_ORIGINS = [
   "https://mobili-tee.com",
   "https://www.mobili-tee.com",
+  "https://mobili-tee.pages.dev",
   "http://localhost:8788",
   "http://127.0.0.1:8788"
 ];
@@ -44,7 +46,11 @@ function json(body, init = {}) {
   });
 }
 
-async function sendEmailNotification(env, payload) {
+function clip(s, n) {
+  return String(s == null ? "" : s).slice(0, n);
+}
+
+async function sendEmailNotification(env, subject, body) {
   if (!env.RESEND_API_KEY || !env.NOTIFY_TO || !env.NOTIFY_FROM) {
     return { ok: false, skipped: true };
   }
@@ -57,22 +63,111 @@ async function sendEmailNotification(env, payload) {
     body: JSON.stringify({
       from: env.NOTIFY_FROM,
       to: env.NOTIFY_TO,
-      subject: `New Mobili-Tee signup: ${payload.email}`,
-      text:
-        `New signup on mobili-tee.com\n\n` +
-        `Email:    ${payload.email}\n` +
-        `Source:   ${payload.source || "unknown"}\n` +
-        `Page:     ${payload.page || ""}\n` +
-        `Referrer: ${payload.referrer || ""}\n` +
-        `Time:     ${payload.timestamp}\n`
+      subject,
+      text: body
     })
   });
   return { ok: res.ok, status: res.status };
 }
 
+async function handleSignup(body, request, env) {
+  const email = clip(body.email, 254).trim().toLowerCase();
+  if (!EMAIL_RE.test(email)) {
+    return { error: "Invalid email", status: 400 };
+  }
+
+  const record = {
+    email,
+    source: clip(body.source, 64),
+    page: clip(body.page, 256),
+    referrer: clip(body.referrer, 256),
+    ip: request.headers.get("CF-Connecting-IP") || "",
+    country: request.cf?.country || "",
+    ua: request.headers.get("User-Agent") || "",
+    timestamp: new Date().toISOString()
+  };
+
+  if (env.SUBSCRIBERS) {
+    await env.SUBSCRIBERS.put(`subscriber:${email}`, JSON.stringify(record));
+  }
+
+  const notified = await sendEmailNotification(
+    env,
+    `New Mobili-Tee signup: ${email}`,
+    [
+      `New signup on mobili-tee.com`,
+      ``,
+      `Email:    ${record.email}`,
+      `Source:   ${record.source || "unknown"}`,
+      `Page:     ${record.page || ""}`,
+      `Referrer: ${record.referrer || ""}`,
+      `Country:  ${record.country || ""}`,
+      `Time:     ${record.timestamp}`
+    ].join("\n")
+  ).catch((err) => {
+    console.error("notify failed", err);
+    return { ok: false };
+  });
+
+  return { ok: true, notified: notified.ok === true };
+}
+
+async function handleBriefing(body, request, env) {
+  const name = clip(body.name, 120).trim();
+  const club = clip(body.club, 160).trim();
+  const role = clip(body.role, 120).trim();
+  const email = clip(body.email, 254).trim().toLowerCase();
+  const message = clip(body.message, 1500).trim();
+
+  if (!name || !club || !role || !EMAIL_RE.test(email)) {
+    return { error: "Missing required fields", status: 400 };
+  }
+
+  const record = {
+    type: "briefing",
+    name,
+    club,
+    role,
+    email,
+    message,
+    page: clip(body.page, 256),
+    ip: request.headers.get("CF-Connecting-IP") || "",
+    country: request.cf?.country || "",
+    ua: request.headers.get("User-Agent") || "",
+    timestamp: new Date().toISOString()
+  };
+
+  if (env.SUBSCRIBERS) {
+    const key = `briefing:${record.timestamp}:${email}`;
+    await env.SUBSCRIBERS.put(key, JSON.stringify(record));
+  }
+
+  const notified = await sendEmailNotification(
+    env,
+    `Mobili-Tee club briefing request: ${club}`,
+    [
+      `New club briefing request from mobili-tee.com`,
+      ``,
+      `Name:    ${record.name}`,
+      `Club:    ${record.club}`,
+      `Role:    ${record.role}`,
+      `Email:   ${record.email}`,
+      `Country: ${record.country || ""}`,
+      `Time:    ${record.timestamp}`,
+      ``,
+      `Message:`,
+      record.message || "(none)"
+    ].join("\n")
+  ).catch((err) => {
+    console.error("briefing notify failed", err);
+    return { ok: false };
+  });
+
+  return { ok: true, notified: notified.ok === true };
+}
+
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);
     const origin = request.headers.get("Origin") || "";
     const cors = corsHeaders(origin);
 
@@ -91,37 +186,26 @@ export default {
       return json({ error: "Invalid JSON" }, { status: 400, headers: cors });
     }
 
-    const email = (body.email || "").trim().toLowerCase();
-    if (!EMAIL_RE.test(email) || email.length > 254) {
-      return json({ error: "Invalid email" }, { status: 400, headers: cors });
-    }
-
-    // Honeypot — if a hidden field is filled, drop silently with 200.
-    if (body.website || body.phone_number) {
+    // Honeypot — silently succeed.
+    if (body.company || body.website || body.phone_number) {
       return json({ ok: true }, { status: 200, headers: cors });
     }
 
-    const record = {
-      email,
-      source: String(body.source || "").slice(0, 64),
-      page: String(body.page || "").slice(0, 256),
-      referrer: String(body.referrer || "").slice(0, 256),
-      ip: request.headers.get("CF-Connecting-IP") || "",
-      country: request.cf?.country || "",
-      ua: request.headers.get("User-Agent") || "",
-      timestamp: new Date().toISOString()
-    };
-
-    if (env.SUBSCRIBERS) {
-      const key = `subscriber:${email}`;
-      await env.SUBSCRIBERS.put(key, JSON.stringify(record));
+    let result;
+    try {
+      if (body.type === "briefing") {
+        result = await handleBriefing(body, request, env);
+      } else {
+        result = await handleSignup(body, request, env);
+      }
+    } catch (err) {
+      console.error("handler error", err);
+      return json({ error: "Server error" }, { status: 500, headers: cors });
     }
 
-    const notified = await sendEmailNotification(env, record).catch((err) => {
-      console.error("notify failed", err);
-      return { ok: false };
-    });
-
-    return json({ ok: true, notified: notified.ok === true }, { status: 200, headers: cors });
+    if (result.error) {
+      return json({ error: result.error }, { status: result.status || 400, headers: cors });
+    }
+    return json({ ok: true, notified: result.notified === true }, { status: 200, headers: cors });
   }
 };
