@@ -301,14 +301,13 @@ ul, ol { padding: 0; margin: 0; }
   z-index: 60;
   background: var(--primary-deep);
   color: var(--cream);
-  visibility: hidden;
+  display: none;
   opacity: 0;
-  transition: opacity 0.3s var(--ease), visibility 0s linear 0.3s;
+  transition: opacity 0.3s var(--ease);
 }
 .mobile-menu[data-open="true"] {
-  visibility: visible;
+  display: block;
   opacity: 1;
-  transition: opacity 0.3s var(--ease), visibility 0s linear 0s;
 }
 .mobile-menu__inner {
   display: flex;

@@ -206,6 +206,7 @@
   function openMenu() {
     if (!mobileMenu) return;
     lastFocused = document.activeElement;
+    mobileMenu.removeAttribute("inert");
     mobileMenu.setAttribute("data-open", "true");
     mobileMenu.setAttribute("aria-hidden", "false");
     if (menuToggle) menuToggle.setAttribute("aria-expanded", "true");
@@ -219,6 +220,7 @@
     if (!mobileMenu) return;
     mobileMenu.setAttribute("data-open", "false");
     mobileMenu.setAttribute("aria-hidden", "true");
+    mobileMenu.setAttribute("inert", "");
     if (menuToggle) menuToggle.setAttribute("aria-expanded", "false");
     document.body.style.overflow = "";
     document.removeEventListener("keydown", trapFocus);
