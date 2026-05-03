@@ -4,6 +4,7 @@ node_modules/
 .env.local
 *.log
 .wrangler/
-dist/
 .vscode/
 .idea/
+# dist/ is the build output — ignored from git but produced on every deploy.
+dist/

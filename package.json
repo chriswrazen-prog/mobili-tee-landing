@@ -1,0 +1,14 @@
+{
+  "name": "mobili-tee-landing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mobili-Tee pre-launch landing page — static site deployed to Cloudflare Pages.",
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "python -m http.server --directory dist 8765"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  }
+}
