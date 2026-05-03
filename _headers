@@ -6,20 +6,24 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io https://*.workers.dev; frame-ancestors 'none'
 
+# CSS / JS — change in place each deploy. Cache for an hour, but always
+# revalidate. NO 'immutable' (browsers would never refetch).
 /*.css
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, must-revalidate
 
 /*.js
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, must-revalidate
 
+# Images / icons — usually replaced by uploading a new file with the same
+# name. Same policy as CSS/JS so updates are visible within an hour.
 /*.svg
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, must-revalidate
 
 /*.jpg
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, must-revalidate
 
 /*.png
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, must-revalidate
 
 /*.webmanifest
   Cache-Control: public, max-age=86400
