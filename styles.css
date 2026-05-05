@@ -1104,6 +1104,40 @@ ul, ol { padding: 0; margin: 0; }
 }
 
 /* ============================================================
+   HSA / FSA
+   ============================================================ */
+.section--hsa {
+  background: linear-gradient(180deg, var(--cream-warm) 0%, var(--cream) 100%);
+  text-align: center;
+}
+.section--hsa .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hsa__badge {
+  display: inline-block;
+  align-self: center;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  background: rgba(201, 169, 97, 0.12);
+  border: 1px solid rgba(201, 169, 97, 0.5);
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  margin: 0 0 1.5rem;
+}
+.section--hsa .section__title { margin-bottom: 1.5rem; }
+.section--hsa .section__lede {
+  color: var(--charcoal);
+  font-size: 1.05rem;
+  max-width: 680px;
+}
+
+/* ============================================================
    Capture / signup
    ============================================================ */
 .section--capture {
