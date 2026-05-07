@@ -209,17 +209,84 @@
           Club this summer, with additional clubs to follow.
         </p>
 
-        <form class="email-form email-form--hero" data-form="hero" aria-label="Email signup - hero" novalidate>
-          <label class="visually-hidden" for="hero-email">Email address</label>
-          <input
-            type="email"
-            id="hero-email"
-            name="email"
-            class="email-form__input"
-            placeholder="Enter your email"
-            autocomplete="email"
-            required
-          />
+        <form class="member-form" data-form="hero" aria-label="Member signup - hero" novalidate>
+          <div class="member-form__row">
+            <div class="field field--dark">
+              <label for="m-name">
+                Full Name <span class="field__req" aria-hidden="true">*</span>
+                <span class="visually-hidden">(required)</span>
+              </label>
+              <input
+                id="m-name"
+                name="name"
+                type="text"
+                placeholder="First and last name"
+                autocomplete="name"
+                required
+                maxlength="120"
+              />
+            </div>
+            <div class="field field--dark">
+              <label for="m-email">
+                Email <span class="field__req" aria-hidden="true">*</span>
+                <span class="visually-hidden">(required)</span>
+              </label>
+              <input
+                id="m-email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="member-form__row">
+            <div class="field field--dark">
+              <label for="m-phone">
+                Phone <span class="field__optional">(optional)</span>
+              </label>
+              <input
+                id="m-phone"
+                name="phone"
+                type="tel"
+                placeholder="(484) 555-1234"
+                autocomplete="tel"
+                maxlength="40"
+              />
+            </div>
+            <div class="field field--dark">
+              <label for="m-club">
+                Country Club <span class="field__req" aria-hidden="true">*</span>
+                <span class="visually-hidden">(required)</span>
+              </label>
+              <select id="m-club" name="club" required>
+                <option value="" disabled selected>Choose one</option>
+                <option>Radley Run</option>
+                <option>Penn Oaks</option>
+                <option>Concord</option>
+                <option>Kennett</option>
+                <option>Other Chester County club</option>
+                <option>Not a country club member</option>
+                <option>Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field field--dark">
+            <label for="m-context">
+              What brought you here? <span class="field__optional">(optional)</span>
+            </label>
+            <textarea
+              id="m-context"
+              name="what_brought_you"
+              rows="2"
+              maxlength="250"
+              placeholder="Recovering from StretchLab? Got a nagging issue? Just curious? Whatever brought you, we want to hear about it."
+            ></textarea>
+          </div>
+
           <input
             type="text"
             name="company"
@@ -228,8 +295,9 @@
             aria-hidden="true"
             class="email-form__honeypot"
           />
-          <button type="submit" class="email-form__submit">
-            <span class="email-form__label">Stay Informed</span>
+
+          <button type="submit" class="btn btn--primary member-form__submit">
+            <span class="email-form__label">Join the Launch List</span>
             <span class="email-form__spinner" aria-hidden="true"></span>
           </button>
           <p class="email-form__message" data-message role="status" aria-live="polite"></p>
@@ -753,6 +821,7 @@
         <div class="footer__col">
           <p class="footer__heading">Legal</p>
           <ul class="footer__links">
+            <li><a href="/careers">Careers</a></li>
             <li><a href="/privacy">Privacy Policy</a></li>
             <li><a href="/terms">Terms</a></li>
             <li><a href="mailto:hello@mobili-tee.com">Contact</a></li>

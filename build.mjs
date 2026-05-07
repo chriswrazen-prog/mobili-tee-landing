@@ -34,9 +34,17 @@ const STATIC_COPY = [
   "founder-placeholder.svg",
   "site.webmanifest",
   "robots.txt",
-  "sitemap.xml",
+  "sitemap.xml"
+];
+
+// HTML files that need their asset references (styles.css / script.js)
+// rewritten to the hashed filenames. index.html is processed separately
+// further below with extra logging; the rest go through the same rewrite.
+const HTML_PAGES = [
+  "index.html",
   "privacy.html",
-  "terms.html"
+  "terms.html",
+  "careers.html"
 ];
 
 // Files to hash. Shape: { src, hashedNamePattern, refReplacements: [{ in, find, replace }] }
@@ -118,25 +126,33 @@ async function main() {
   await fs.writeFile(path.join(OUT, "_headers"), headers);
   log("wrote _headers (with hashed-asset rules)");
 
-  // 4. Rewrite index.html to reference hashed assets.
-  let html = await fs.readFile(path.join(ROOT, "index.html"), "utf8");
-  for (const [orig, hashed] of Object.entries(refMap)) {
-    // Match /<orig> as href or src — be specific so we don't rewrite
-    // similar substrings elsewhere.
-    const re = new RegExp(
-      `((?:href|src)\\s*=\\s*["'])\\/${orig.replace(/\./g, "\\.")}(["'])`,
-      "g"
-    );
-    const before = html;
-    html = html.replace(re, `$1/${hashed}$2`);
-    if (html === before) {
-      console.warn(`[build] WARNING: no reference to /${orig} found in index.html`);
-    } else {
-      log(`rewrote ${orig} reference -> /${hashed}`);
+  // 4. Rewrite each HTML page to reference hashed assets.
+  for (const page of HTML_PAGES) {
+    const srcPath = path.join(ROOT, page);
+    let html;
+    try {
+      html = await fs.readFile(srcPath, "utf8");
+    } catch (err) {
+      if (err.code === "ENOENT") {
+        log(`skipped ${page} (not present)`);
+        continue;
+      }
+      throw err;
     }
+    for (const [orig, hashed] of Object.entries(refMap)) {
+      const re = new RegExp(
+        `((?:href|src)\\s*=\\s*["'])\\/${orig.replace(/\./g, "\\.")}(["'])`,
+        "g"
+      );
+      const before = html;
+      html = html.replace(re, `$1/${hashed}$2`);
+      if (html !== before) {
+        log(`${page}: rewrote ${orig} -> /${hashed}`);
+      }
+    }
+    await fs.writeFile(path.join(OUT, page), html);
+    log(`wrote ${page}`);
   }
-  await fs.writeFile(path.join(OUT, "index.html"), html);
-  log("wrote index.html");
 
   log(`done — output in ${path.relative(ROOT, OUT)}/`);
 }

@@ -1104,6 +1104,240 @@ ul, ol { padding: 0; margin: 0; }
 }
 
 /* ============================================================
+   Member form (expanded hero signup) — dark hero variant
+   ============================================================ */
+.member-form {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background: rgba(245, 241, 232, 0.06);
+  border: 1px solid rgba(245, 241, 232, 0.16);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.4rem 1.55rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-align: left;
+}
+.member-form__row {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .member-form__row { grid-template-columns: 1fr 1fr; }
+}
+.member-form__submit {
+  align-self: stretch;
+  margin-top: 0.4rem;
+}
+@media (min-width: 520px) {
+  .member-form__submit { align-self: flex-start; min-width: 220px; }
+}
+.member-form .email-form__message {
+  position: static;
+  margin: 0.25rem 0 0;
+  text-align: left;
+  color: var(--accent-soft);
+}
+.member-form .email-form__message[data-state="error"] { color: #f1b9a3; }
+.member-form[data-success="true"] > *:not(.member-form__success) { display: none; }
+.member-form__success {
+  display: none;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--cream);
+  margin: 0;
+  text-align: center;
+  padding: 0.75rem 0;
+}
+.member-form[data-success="true"] .member-form__success { display: block; }
+
+/* Field — dark variant for hero */
+.field--dark label {
+  color: var(--accent-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.field--dark .field__optional {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.78rem;
+  color: rgba(245, 241, 232, 0.6);
+}
+.field--dark input,
+.field--dark select,
+.field--dark textarea {
+  font-family: inherit;
+  font-size: 0.98rem;
+  color: var(--cream);
+  background: rgba(36, 61, 48, 0.45);
+  border: 1px solid rgba(245, 241, 232, 0.18);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.85rem;
+  width: 100%;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.field--dark input::placeholder,
+.field--dark textarea::placeholder {
+  color: rgba(245, 241, 232, 0.5);
+}
+.field--dark input:focus,
+.field--dark select:focus,
+.field--dark textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(36, 61, 48, 0.7);
+}
+.field--dark select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%23c9a961' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 12px;
+  padding-right: 2rem;
+}
+.field--dark select option {
+  background: var(--primary-deep);
+  color: var(--cream);
+}
+.field--dark textarea { resize: vertical; min-height: 64px; line-height: 1.45; }
+
+.field__req { color: var(--accent); font-weight: 600; }
+
+/* ============================================================
+   Careers page
+   ============================================================ */
+.topnav--solid {
+  background: var(--primary-dark);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.careers-hero {
+  position: relative;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(132, 181, 159, 0.12), transparent 60%),
+    radial-gradient(ellipse at 80% 90%, rgba(201, 169, 97, 0.08), transparent 55%),
+    linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: var(--cream);
+  padding: calc(var(--nav-h) + 4rem) 0 5rem;
+  text-align: center;
+  overflow: hidden;
+}
+.careers-hero__decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.careers-hero__inner { position: relative; z-index: 1; }
+.careers-hero__title {
+  max-width: 760px;
+  margin: 0 auto 1.5rem;
+}
+.careers-hero__lede {
+  max-width: 640px;
+  margin: 0 auto 2rem;
+  color: var(--muted-light-strong);
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
+}
+.careers-hero__cta { margin-top: 1rem; }
+
+.section--why-work { background: var(--cream); }
+.section--who {
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(132, 181, 159, 0.12), transparent 55%),
+    var(--primary);
+  color: var(--cream);
+}
+.who-list {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.who-list li {
+  position: relative;
+  padding-left: 2rem;
+  color: var(--muted-light-strong);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+.who-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7rem;
+  width: 14px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.section--apply { background: var(--cream); }
+.careers-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  position: relative;
+}
+.careers-form select {
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--charcoal);
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem 0.9rem;
+  width: 100%;
+  transition: border-color 0.2s var(--ease);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%232f4f3e' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 12px;
+  padding-right: 2rem;
+}
+.careers-form select:focus {
+  outline: none;
+  border-color: var(--accent);
+  background-color: var(--white);
+}
+.careers-form .briefing-form__submit { align-self: flex-start; min-width: 220px; }
+.careers-form[data-success="true"] > *:not(.careers-form__success) { display: none; }
+.careers-form__success {
+  display: none;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--primary);
+  text-align: center;
+  padding: 1.5rem 0;
+}
+.careers-form[data-success="true"] .careers-form__success { display: block; }
+.careers-form .email-form__message {
+  position: static;
+  margin: 0.25rem 0 0;
+  text-align: left;
+  color: var(--primary);
+}
+.careers-form .email-form__message[data-state="error"] { color: #b3563f; }
+
+/* ============================================================
    HSA / FSA
    ============================================================ */
 .section--hsa {

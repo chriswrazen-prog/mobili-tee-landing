@@ -25,10 +25,11 @@
   }
 
   function showSuccess(form, text) {
-    var existing = form.querySelector(".email-form__success, .briefing-form__success");
-    var className = form.classList.contains("briefing-form")
-      ? "briefing-form__success"
-      : "email-form__success";
+    var className = "email-form__success";
+    if (form.classList.contains("careers-form")) className = "careers-form__success";
+    else if (form.classList.contains("briefing-form")) className = "briefing-form__success";
+    else if (form.classList.contains("member-form")) className = "member-form__success";
+    var existing = form.querySelector("." + className);
     if (!existing) {
       var p = document.createElement("p");
       p.className = className;
@@ -110,6 +111,82 @@
   });
 
   // ============================================================
+  // Member form (expanded hero signup) — name + email + phone + club + context
+  // ============================================================
+  async function submitMemberForm(event) {
+    event.preventDefault();
+    var form = event.currentTarget;
+    var button = form.querySelector("button[type='submit']");
+    var honeypot = form.querySelector('input[name="company"]');
+
+    if (honeypot && honeypot.value) {
+      showSuccess(form, "Thanks - we’ll be in touch when we open the member preview list.");
+      return;
+    }
+
+    var data = {
+      name: (form.elements["name"].value || "").trim(),
+      email: (form.elements["email"].value || "").trim(),
+      phone: (form.elements["phone"].value || "").trim(),
+      club: (form.elements["club"].value || "").trim(),
+      what_brought_you: (form.elements["what_brought_you"].value || "").trim(),
+      source: form.getAttribute("data-form") || "hero",
+      page: window.location.href,
+      referrer: document.referrer || ""
+    };
+
+    if (!data.name) {
+      setMessage(form, "Please enter your name.", "error");
+      form.elements["name"].focus();
+      return;
+    }
+    if (!EMAIL_RE.test(data.email)) {
+      setMessage(form, "Please enter a valid email address.", "error");
+      form.elements["email"].focus();
+      return;
+    }
+    if (!data.club) {
+      setMessage(form, "Please select your country club.", "error");
+      form.elements["club"].focus();
+      return;
+    }
+
+    button.disabled = true;
+    form.setAttribute("data-loading", "true");
+    setMessage(form, "");
+
+    var endpoint = getEndpoint();
+
+    try {
+      if (endpoint) {
+        var res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) {
+          var d = null;
+          try { d = await res.json(); } catch (_) {}
+          throw new Error(d && d.error ? d.error : "Status " + res.status);
+        }
+      } else {
+        await new Promise(function (r) { setTimeout(r, 700); });
+      }
+      showSuccess(form, "Thanks - we’ll be in touch when we open the member preview list.");
+    } catch (err) {
+      setMessage(form, "Something went wrong. Please try again or email hello@mobili-tee.com.", "error");
+      console.error("Member form submission failed:", err);
+    } finally {
+      button.disabled = false;
+      form.removeAttribute("data-loading");
+    }
+  }
+
+  document.querySelectorAll(".member-form").forEach(function (form) {
+    form.addEventListener("submit", submitMemberForm);
+  });
+
+  // ============================================================
   // Briefing form (For Clubs)
   // ============================================================
   async function submitBriefingForm(event) {
@@ -171,6 +248,90 @@
 
   document.querySelectorAll(".briefing-form").forEach(function (form) {
     form.addEventListener("submit", submitBriefingForm);
+  });
+
+  // ============================================================
+  // Careers form (Mobility Specialist application)
+  // ============================================================
+  async function submitCareersForm(event) {
+    event.preventDefault();
+    var form = event.currentTarget;
+    var button = form.querySelector("button[type='submit']");
+    var honeypot = form.querySelector('input[name="company"]');
+
+    if (honeypot && honeypot.value) {
+      showSuccess(form, "Thanks - we’ll be in touch shortly.");
+      return;
+    }
+
+    var data = {
+      type: "application",
+      name: (form.elements["name"].value || "").trim(),
+      email: (form.elements["email"].value || "").trim(),
+      phone: (form.elements["phone"].value || "").trim(),
+      current_role: (form.elements["current_role"].value || "").trim(),
+      years_experience: (form.elements["years_experience"].value || "").trim(),
+      certifications: (form.elements["certifications"].value || "").trim(),
+      why_interested: (form.elements["why_interested"].value || "").trim(),
+      linkedin_url: (form.elements["linkedin_url"].value || "").trim(),
+      source: "careers",
+      page: window.location.href
+    };
+
+    if (!data.name) {
+      setMessage(form, "Please enter your name.", "error");
+      form.elements["name"].focus();
+      return;
+    }
+    if (!EMAIL_RE.test(data.email)) {
+      setMessage(form, "Please enter a valid email address.", "error");
+      form.elements["email"].focus();
+      return;
+    }
+    if (!data.phone) {
+      setMessage(form, "Please enter a phone number.", "error");
+      form.elements["phone"].focus();
+      return;
+    }
+    if (!data.current_role) {
+      setMessage(form, "Please tell us your current or most recent role.", "error");
+      form.elements["current_role"].focus();
+      return;
+    }
+
+    button.disabled = true;
+    form.setAttribute("data-loading", "true");
+    setMessage(form, "");
+
+    var endpoint = getEndpoint();
+
+    try {
+      if (endpoint) {
+        var res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) {
+          var d = null;
+          try { d = await res.json(); } catch (_) {}
+          throw new Error(d && d.error ? d.error : "Status " + res.status);
+        }
+      } else {
+        await new Promise(function (r) { setTimeout(r, 700); });
+      }
+      showSuccess(form, "Thank you - your application is in. We’ll be in touch shortly.");
+    } catch (err) {
+      setMessage(form, "Something went wrong. Please try again or email hello@mobili-tee.com.", "error");
+      console.error("Careers submission failed:", err);
+    } finally {
+      button.disabled = false;
+      form.removeAttribute("data-loading");
+    }
+  }
+
+  document.querySelectorAll(".careers-form").forEach(function (form) {
+    form.addEventListener("submit", submitCareersForm);
   });
 
   // ============================================================

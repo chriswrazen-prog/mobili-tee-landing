@@ -1,16 +1,23 @@
 /**
  * Mobili-Tee form handler Worker
  *
- * Handles two payload types:
- *   1. Email signup (default): { email, source, page, referrer }
- *   2. Club briefing request:  { type: "briefing", name, club, role, email, message, page }
+ * Handles three payload types:
+ *   1. Email/member signup (default):
+ *        { email, name?, phone?, club?, what_brought_you?, source, page, referrer }
+ *   2. Club briefing request:
+ *        { type: "briefing", name, club, role, email, message, page }
+ *   3. Mobility-Specialist application:
+ *        { type: "application", name, email, phone, current_role,
+ *          years_experience?, certifications?, why_interested?,
+ *          linkedin_url?, source, page }
  *
- * Stores submissions in KV (prefixes "subscriber:" and "briefing:") and notifies via Resend.
+ * KV storage uses the prefixes:
+ *   subscriber:<email>
+ *   briefing:<timestamp>:<email>
+ *   application:<timestamp>:<email>
  *
- * Required secrets (set via `wrangler secret put`):
- *   RESEND_API_KEY
- *   NOTIFY_TO        e.g. chriswrazen@gmail.com
- *   NOTIFY_FROM      e.g. "Mobili-Tee <updates@mobili-tee.com>"
+ * Required Cloudflare Worker secrets:
+ *   RESEND_API_KEY, NOTIFY_TO, NOTIFY_FROM
  *
  * KV binding: SUBSCRIBERS (configured in wrangler.toml)
  */
@@ -39,15 +46,17 @@ function corsHeaders(origin) {
 function json(body, init = {}) {
   return new Response(JSON.stringify(body), {
     ...init,
-    headers: {
-      "Content-Type": "application/json",
-      ...(init.headers || {})
-    }
+    headers: { "Content-Type": "application/json", ...(init.headers || {}) }
   });
 }
 
 function clip(s, n) {
   return String(s == null ? "" : s).slice(0, n);
+}
+
+function orNone(s) {
+  const t = (s || "").trim();
+  return t || "(not provided)";
 }
 
 async function sendEmailNotification(env, subject, body) {
@@ -78,6 +87,10 @@ async function handleSignup(body, request, env) {
 
   const record = {
     email,
+    name: clip(body.name, 120).trim(),
+    phone: clip(body.phone, 40).trim(),
+    club: clip(body.club, 60).trim(),
+    what_brought_you: clip(body.what_brought_you, 250).trim(),
     source: clip(body.source, 64),
     page: clip(body.page, 256),
     referrer: clip(body.referrer, 256),
@@ -91,19 +104,30 @@ async function handleSignup(body, request, env) {
     await env.SUBSCRIBERS.put(`subscriber:${email}`, JSON.stringify(record));
   }
 
+  const subjectName = record.name || record.email;
+  const lines = [
+    `New signup on mobili-tee.com`,
+    ``,
+    `Name:  ${orNone(record.name)}`,
+    `Email: ${record.email}`,
+    `Phone: ${orNone(record.phone)}`,
+    `Club:  ${orNone(record.club)}`,
+    ``,
+    `What brought them:`,
+    record.what_brought_you ? record.what_brought_you : "(not provided)",
+    ``,
+    `--`,
+    `Source:   ${record.source || "unknown"}`,
+    `Page:     ${record.page || ""}`,
+    `Referrer: ${record.referrer || ""}`,
+    `Country:  ${record.country || ""}`,
+    `Time:     ${record.timestamp}`
+  ];
+
   const notified = await sendEmailNotification(
     env,
-    `New Mobili-Tee signup: ${email}`,
-    [
-      `New signup on mobili-tee.com`,
-      ``,
-      `Email:    ${record.email}`,
-      `Source:   ${record.source || "unknown"}`,
-      `Page:     ${record.page || ""}`,
-      `Referrer: ${record.referrer || ""}`,
-      `Country:  ${record.country || ""}`,
-      `Time:     ${record.timestamp}`
-    ].join("\n")
+    `New Mobili-Tee signup: ${subjectName}`,
+    lines.join("\n")
   ).catch((err) => {
     console.error("notify failed", err);
     return { ok: false };
@@ -125,11 +149,7 @@ async function handleBriefing(body, request, env) {
 
   const record = {
     type: "briefing",
-    name,
-    club,
-    role,
-    email,
-    message,
+    name, club, role, email, message,
     page: clip(body.page, 256),
     ip: request.headers.get("CF-Connecting-IP") || "",
     country: request.cf?.country || "",
@@ -138,8 +158,10 @@ async function handleBriefing(body, request, env) {
   };
 
   if (env.SUBSCRIBERS) {
-    const key = `briefing:${record.timestamp}:${email}`;
-    await env.SUBSCRIBERS.put(key, JSON.stringify(record));
+    await env.SUBSCRIBERS.put(
+      `briefing:${record.timestamp}:${email}`,
+      JSON.stringify(record)
+    );
   }
 
   const notified = await sendEmailNotification(
@@ -166,6 +188,72 @@ async function handleBriefing(body, request, env) {
   return { ok: true, notified: notified.ok === true };
 }
 
+async function handleApplication(body, request, env) {
+  const name = clip(body.name, 120).trim();
+  const email = clip(body.email, 254).trim().toLowerCase();
+  const phone = clip(body.phone, 40).trim();
+  const current_role = clip(body.current_role, 160).trim();
+  const years_experience = clip(body.years_experience, 32).trim();
+  const certifications = clip(body.certifications, 600).trim();
+  const why_interested = clip(body.why_interested, 1500).trim();
+  const linkedin_url = clip(body.linkedin_url, 256).trim();
+
+  if (!name || !EMAIL_RE.test(email) || !phone || !current_role) {
+    return { error: "Missing required fields", status: 400 };
+  }
+
+  const record = {
+    type: "application",
+    name, email, phone, current_role,
+    years_experience, certifications, why_interested, linkedin_url,
+    page: clip(body.page, 256),
+    ip: request.headers.get("CF-Connecting-IP") || "",
+    country: request.cf?.country || "",
+    ua: request.headers.get("User-Agent") || "",
+    timestamp: new Date().toISOString()
+  };
+
+  if (env.SUBSCRIBERS) {
+    await env.SUBSCRIBERS.put(
+      `application:${record.timestamp}:${email}`,
+      JSON.stringify(record)
+    );
+  }
+
+  const lines = [
+    `New Mobility-Specialist application from mobili-tee.com/careers`,
+    ``,
+    `Name:                ${record.name}`,
+    `Email:               ${record.email}`,
+    `Phone:               ${record.phone}`,
+    `Current/Recent Role: ${record.current_role}`,
+    `Years Experience:    ${orNone(record.years_experience)}`,
+    `LinkedIn / portfolio: ${orNone(record.linkedin_url)}`,
+    ``,
+    `Certifications:`,
+    record.certifications || "(not provided)",
+    ``,
+    `Why interested:`,
+    record.why_interested || "(not provided)",
+    ``,
+    `--`,
+    `Page:    ${record.page || ""}`,
+    `Country: ${record.country || ""}`,
+    `Time:    ${record.timestamp}`
+  ];
+
+  const notified = await sendEmailNotification(
+    env,
+    `New Mobili-Tee application: ${record.name}`,
+    lines.join("\n")
+  ).catch((err) => {
+    console.error("application notify failed", err);
+    return { ok: false };
+  });
+
+  return { ok: true, notified: notified.ok === true };
+}
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
@@ -174,7 +262,6 @@ export default {
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: cors });
     }
-
     if (request.method !== "POST") {
       return json({ error: "Method not allowed" }, { status: 405, headers: cors });
     }
@@ -186,7 +273,6 @@ export default {
       return json({ error: "Invalid JSON" }, { status: 400, headers: cors });
     }
 
-    // Honeypot — silently succeed.
     if (body.company || body.website || body.phone_number) {
       return json({ ok: true }, { status: 200, headers: cors });
     }
@@ -195,6 +281,8 @@ export default {
     try {
       if (body.type === "briefing") {
         result = await handleBriefing(body, request, env);
+      } else if (body.type === "application") {
+        result = await handleApplication(body, request, env);
       } else {
         result = await handleSignup(body, request, env);
       }
