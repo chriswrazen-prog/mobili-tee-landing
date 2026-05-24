@@ -45,7 +45,8 @@ const HTML_PAGES = [
   "privacy.html",
   "terms.html",
   "careers.html",
-  "pricing.html"
+  "pricing.html",
+  "location.html"
 ];
 
 // Files to hash. Shape: { src, hashedNamePattern, refReplacements: [{ in, find, replace }] }

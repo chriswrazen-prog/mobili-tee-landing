@@ -118,7 +118,7 @@ async function generateSignupMiddle(record, env) {
     "- Premium assisted-stretching service that operates inside private country clubs",
     "- Independent: members book and pay through Mobili-Tee directly, not the club",
     "- HSA/FSA reimbursement available via Truemed",
-    "- Launching at Radley Run Country Club this summer",
+    "- Launching at Radley Run Country Club on June 22, 2026",
     "- Chris is a fixed-income guy, longtime golfer, longtime country club member",
     "- Brand voice: confident, premium, country-club-appropriate, understated",
     "",

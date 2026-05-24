@@ -4,7 +4,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io https://*.workers.dev; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.googleusercontent.com https://maps.gstatic.com https://maps.googleapis.com; connect-src 'self' https://formspree.io https://*.workers.dev; frame-src https://www.google.com https://maps.google.com; frame-ancestors 'none'
 
 # CSS / JS — change in place each deploy. Cache for an hour, but always
 # revalidate. NO 'immutable' (browsers would never refetch).
