@@ -31,6 +31,7 @@ const STATIC_COPY = [
   "favicon.svg",
   "apple-touch-icon.png",
   "og-image.jpg",
+  "founders.jpg",
   "founder-placeholder.svg",
   "site.webmanifest",
   "robots.txt",

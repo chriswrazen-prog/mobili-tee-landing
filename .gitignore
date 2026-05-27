@@ -6,5 +6,8 @@ node_modules/
 .wrangler/
 .vscode/
 .idea/
-# dist/ is the build output — ignored from git but produced on every deploy.
+# dist/ is the build output - ignored from git but produced on every deploy.
 dist/
+
+# High-res source assets kept locally; only the web-optimized version is shipped.
+Mobilitee Profile Pic.jpg
