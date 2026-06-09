@@ -1621,6 +1621,13 @@ ul, ol { padding: 0; margin: 0; }
 }
 .tier-card--featured .tier-card__body { color: var(--muted-light-strong); }
 
+.tier-card__cta {
+  margin-top: 1.5rem;
+  align-self: stretch;
+  text-align: center;
+  font-size: 0.86rem;
+}
+
 /* Singles */
 .section--singles { background: linear-gradient(180deg, var(--cream) 0%, var(--cream-warm) 100%); }
 .single-grid {
