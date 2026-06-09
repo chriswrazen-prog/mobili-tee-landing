@@ -1802,6 +1802,100 @@ ul, ol { padding: 0; margin: 0; }
 .founding-card__cta { display: inline-flex; }
 
 /* ============================================================
+   Book a Session (Vagaro widget host)
+   ============================================================ */
+.section--book {
+  background: linear-gradient(180deg, var(--cream-warm) 0%, var(--cream) 100%);
+}
+.section--book .section__heading { margin-bottom: 2.25rem; }
+.section--book .section__title { margin-top: 0.85rem; }
+
+.book__badge {
+  display: inline-block;
+  margin: 0 auto 0;
+  background: var(--accent);
+  color: var(--primary-dark);
+  border-color: var(--accent);
+  position: relative;
+  padding-left: 1.85rem;
+}
+.book__badge::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  box-shadow: 0 0 0 0 rgba(47, 79, 62, 0.6);
+  animation: bookPulse 2s ease-out infinite;
+}
+@keyframes bookPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(47, 79, 62, 0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(47, 79, 62, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(47, 79, 62, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .book__badge::before { animation: none; }
+}
+
+.booking-widget {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 2rem);
+  max-width: 560px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-md);
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.booking-widget .embedded-widget-title { color: var(--primary) !important; }
+.booking-widget .vagaro { width: 100% !important; max-width: 320px; }
+
+.book__note {
+  margin: 2rem auto 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-align: center;
+}
+.book__note a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-color: rgba(47, 79, 62, 0.4);
+  text-underline-offset: 3px;
+}
+.book__note a:hover {
+  text-decoration-color: var(--accent);
+  color: var(--accent-deep);
+}
+
+/* Top-nav Book link gets a gold pill treatment to draw the eye */
+.topnav__links .topnav__cta {
+  background: var(--accent);
+  color: var(--primary-dark);
+  padding: 0.45rem 1.05rem;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  transition: background 0.2s var(--ease), transform 0.15s var(--ease);
+}
+.topnav__links .topnav__cta:hover {
+  background: var(--accent-soft);
+  color: var(--primary-dark);
+}
+.topnav__links .topnav__cta:active { transform: scale(0.98); }
+
+.mobile-menu__links .topnav__cta {
+  color: var(--accent);
+}
+
+/* ============================================================
    HSA / FSA
    ============================================================ */
 .section--hsa {
