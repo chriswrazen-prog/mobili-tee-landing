@@ -105,7 +105,7 @@ function firstNameOf(full) {
 
 function clubCloser(club) {
   if (club === "Radley Run") {
-    return "If you're at Radley Run, come find me - I'm usually the one stretching too long after a round.";
+    return "If you're at Radley Run, stop by the studio anytime.";
   }
   return "Happy to answer any questions - just reply here.";
 }
