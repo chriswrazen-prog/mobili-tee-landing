@@ -105,9 +105,9 @@ function firstNameOf(full) {
 
 function clubCloser(club) {
   if (club === "Radley Run") {
-    return "If you're at Radley Run before then, find me. I'll likely be the one stretching too long after a round.";
+    return "If you're at Radley Run, come find me - I'm usually the one stretching too long after a round.";
   }
-  return "Reach out anytime if questions come up.";
+  return "Happy to answer any questions - just reply here.";
 }
 
 async function generateSignupMiddle(record, env) {
@@ -124,7 +124,7 @@ async function generateSignupMiddle(record, env) {
     "- Premium assisted-stretching service that operates inside private country clubs",
     "- Independent: members book and pay through Mobili-Tee directly, not the club",
     "- HSA/FSA reimbursement available via Truemed",
-    "- Launching at Radley Run Country Club on June 22, 2026",
+    "- Open at Radley Run Country Club; first sessions are June 23, 2026 and booking is already live now",
     "- Chris is a fixed-income guy, longtime golfer, longtime country club member",
     "- Brand voice: confident, premium, country-club-appropriate, understated",
     "",
@@ -135,7 +135,7 @@ async function generateSignupMiddle(record, env) {
     "",
     "Your job: Write 2-3 sentences (about 30-50 words total) that go in the MIDDLE of the email. There is a \"Hey " + first + ",\" before and a sign-off after - do not write those.",
     "",
-    "Specifically respond to what they wrote, if anything. If they left the box blank, write a warm one-liner about the launch or their club. Use second person.",
+    "Specifically respond to what they wrote, if anything. If they left the box blank, write a warm one-liner inviting them to book a session or about their club. Use second person.",
     "",
     "Hard rules:",
     "- No em dashes. Use hyphens.",
@@ -181,8 +181,8 @@ async function buildSignupReply(record, env) {
   if (!middle) {
     // Fallback if AI key missing or call failed.
     middle = record.what_brought_you
-      ? "Appreciate you taking a moment to say what brought you here. The kind of recovery work we're building belongs in the spaces you already care about, and I'm glad you found us early."
-      : "Glad you're on the early list. The kind of recovery work we're building belongs in the spaces you already care about, and I'm glad you found us before launch.";
+      ? "Appreciate you taking a moment to say what brought you here. The kind of recovery work we do belongs in the spaces you already care about, and I'm glad you found us."
+      : "Glad you found us. The kind of recovery work we do belongs in the spaces you already care about, and our table is ready when you are.";
   }
   const subject = `Quick note from Mobili-Tee, ${first}`;
   const body = [
@@ -190,7 +190,7 @@ async function buildSignupReply(record, env) {
     ``,
     middle,
     ``,
-    `I'll be in touch as we get closer to launch. ${clubCloser(record.club)}`,
+    `Booking is open now - first sessions are June 23. You can grab a time whenever you like at https://mobili-tee.com/#book. ${clubCloser(record.club)}`,
     ``,
     `- Chris`,
     `Mobili-Tee`
