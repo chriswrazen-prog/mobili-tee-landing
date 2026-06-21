@@ -54,7 +54,7 @@
 
     if (honeypot && honeypot.value) {
       // Bot — silently succeed without sending.
-      showSuccess(form, "Thanks — we’ll be in touch when we open the member preview list.");
+      showSuccess(form, "Thanks - you’re on the list. We’ll keep you posted, and you can book anytime at mobili-tee.com.");
       return;
     }
 
@@ -92,7 +92,7 @@
       } else {
         await new Promise(function (r) { setTimeout(r, 600); });
       }
-      showSuccess(form, "Thanks — we’ll be in touch when we open the member preview list.");
+      showSuccess(form, "Thanks - you’re on the list. We’ll keep you posted, and you can book anytime at mobili-tee.com.");
     } catch (err) {
       setMessage(
         form,
@@ -120,7 +120,7 @@
     var honeypot = form.querySelector('input[name="company"]');
 
     if (honeypot && honeypot.value) {
-      showSuccess(form, "Thanks - we’ll be in touch when we open the member preview list.");
+      showSuccess(form, "Thanks - you’re on the list. We’ll keep you posted, and you can book anytime at mobili-tee.com.");
       return;
     }
 
@@ -172,7 +172,7 @@
       } else {
         await new Promise(function (r) { setTimeout(r, 700); });
       }
-      showSuccess(form, "Thanks - we’ll be in touch when we open the member preview list.");
+      showSuccess(form, "Thanks - you’re on the list. We’ll keep you posted, and you can book anytime at mobili-tee.com.");
     } catch (err) {
       setMessage(form, "Something went wrong. Please try again or email hello@mobili-tee.com.", "error");
       console.error("Member form submission failed:", err);

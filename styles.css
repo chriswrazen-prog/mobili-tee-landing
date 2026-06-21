@@ -1638,6 +1638,10 @@ ul, ol { padding: 0; margin: 0; }
   margin: 0 auto;
 }
 @media (min-width: 720px) { .single-grid { grid-template-columns: 1fr 1fr; } }
+.single-grid--three { max-width: 1040px; }
+@media (min-width: 960px) {
+  .single-grid--three { grid-template-columns: repeat(3, 1fr); }
+}
 
 .single-card {
   background: var(--white);
