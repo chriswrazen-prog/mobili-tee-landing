@@ -69,18 +69,24 @@ async function sendEmailNotification(env, subject, body) {
   if (!env.RESEND_API_KEY || !env.NOTIFY_TO || !env.NOTIFY_FROM) {
     return { ok: false, skipped: true };
   }
+  const payload = {
+    from: env.NOTIFY_FROM,
+    to: env.NOTIFY_TO,
+    subject,
+    text: body
+  };
+  // NOTIFY_CC (comma-separated) gets copied on every notification.
+  if (env.NOTIFY_CC) {
+    const cc = env.NOTIFY_CC.split(",").map((s) => s.trim()).filter(Boolean);
+    if (cc.length) payload.cc = cc;
+  }
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${env.RESEND_API_KEY}`,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      from: env.NOTIFY_FROM,
-      to: env.NOTIFY_TO,
-      subject,
-      text: body
-    })
+    body: JSON.stringify(payload)
   });
   return { ok: res.ok, status: res.status };
 }
