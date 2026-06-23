@@ -124,7 +124,7 @@ async function generateSignupMiddle(record, env) {
     "- Premium assisted-stretching service that operates inside private country clubs",
     "- Independent: members book and pay through Mobili-Tee directly, not the club",
     "- HSA/FSA reimbursement available via Truemed",
-    "- Open at Radley Run Country Club; first sessions are June 23, 2026 and booking is already live now",
+    "- Now open at Radley Run Country Club; booking is live and sessions are happening now",
     "- Chris is a fixed-income guy, longtime golfer, longtime country club member",
     "- Brand voice: confident, premium, country-club-appropriate, understated",
     "",
@@ -190,7 +190,7 @@ async function buildSignupReply(record, env) {
     ``,
     middle,
     ``,
-    `Booking is open now - first sessions are June 23. You can grab a time whenever you like at https://mobili-tee.com/#book. ${clubCloser(record.club)}`,
+    `We're open now - you can grab a time whenever you like at https://mobili-tee.com/#book. ${clubCloser(record.club)}`,
     ``,
     `- Chris`,
     `Mobili-Tee`
