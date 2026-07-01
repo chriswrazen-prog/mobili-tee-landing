@@ -1624,9 +1624,27 @@ ul, ol { padding: 0; margin: 0; }
 .tier-card__rate {
   font-size: 0.92rem;
   color: var(--muted);
-  margin: 0 0 1.1rem;
+  margin: 0 0 0.5rem;
 }
 .tier-card--featured .tier-card__rate { color: var(--accent-soft); }
+.tier-card__member {
+  margin: 0 0 1.1rem;
+  font-size: 0.95rem;
+  color: var(--accent-deep);
+  font-weight: 500;
+}
+.tier-card__member strong { font-weight: 700; }
+.tier-card__member-note {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+.tier-card--featured .tier-card__member { color: var(--accent-soft); }
+.tier-card--featured .tier-card__member-note { color: rgba(245, 241, 232, 0.6); }
 
 .tier-card__rule {
   border: 0;
