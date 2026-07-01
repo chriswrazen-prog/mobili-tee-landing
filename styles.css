@@ -1405,6 +1405,39 @@ ul, ol { padding: 0; margin: 0; }
   color: var(--primary-dark);
 }
 
+/* Light-outline secondary button for dark backgrounds (hero) */
+.btn--outline-light {
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid rgba(245, 241, 232, 0.5);
+}
+.btn--outline-light:hover {
+  background: rgba(245, 241, 232, 0.1);
+  border-color: var(--accent);
+  color: var(--cream);
+}
+
+/* Hero CTA button pair */
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  justify-content: center;
+  margin: 0 auto 1.1rem;
+}
+.hero__cta-btn {
+  flex: 0 1 auto;
+}
+@media (max-width: 480px) {
+  .hero__cta { flex-direction: column; align-items: stretch; max-width: 340px; }
+}
+.hero__form-note a {
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.hero__form-note a:hover { color: var(--accent); }
+
 .section--wayfinding {
   background:
     radial-gradient(ellipse at 80% 100%, rgba(132, 181, 159, 0.12), transparent 55%),

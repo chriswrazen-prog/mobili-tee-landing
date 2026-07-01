@@ -283,100 +283,14 @@
           Club - stop in and see the space, with additional clubs to follow.
         </p>
 
-        <form class="member-form" data-form="hero" aria-label="Member signup - hero" novalidate>
-          <div class="member-form__row">
-            <div class="field field--dark">
-              <label for="m-name">
-                Full Name <span class="field__req" aria-hidden="true">*</span>
-                <span class="visually-hidden">(required)</span>
-              </label>
-              <input
-                id="m-name"
-                name="name"
-                type="text"
-                placeholder="First and last name"
-                autocomplete="name"
-                required
-                maxlength="120"
-              />
-            </div>
-            <div class="field field--dark">
-              <label for="m-email">
-                Email <span class="field__req" aria-hidden="true">*</span>
-                <span class="visually-hidden">(required)</span>
-              </label>
-              <input
-                id="m-email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                autocomplete="email"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="member-form__row">
-            <div class="field field--dark">
-              <label for="m-phone">
-                Phone <span class="field__optional">(optional)</span>
-              </label>
-              <input
-                id="m-phone"
-                name="phone"
-                type="tel"
-                placeholder="(484) 555-1234"
-                autocomplete="tel"
-                maxlength="40"
-              />
-            </div>
-            <div class="field field--dark">
-              <label for="m-club">
-                Country Club <span class="field__req" aria-hidden="true">*</span>
-                <span class="visually-hidden">(required)</span>
-              </label>
-              <select id="m-club" name="club" required>
-                <option value="" disabled selected>Choose one</option>
-                <option>Radley Run</option>
-                <option>Penn Oaks</option>
-                <option>Concord</option>
-                <option>Kennett</option>
-                <option>Other Chester County club</option>
-                <option>Not a country club member</option>
-                <option>Prefer not to say</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="field field--dark">
-            <label for="m-context">
-              What brought you here? <span class="field__optional">(optional)</span>
-            </label>
-            <textarea
-              id="m-context"
-              name="what_brought_you"
-              rows="2"
-              maxlength="250"
-              placeholder="Recovering from StretchLab? Got a nagging issue? Just curious? Whatever brought you, we want to hear about it."
-            ></textarea>
-          </div>
-
-          <input
-            type="text"
-            name="company"
-            tabindex="-1"
-            autocomplete="off"
-            aria-hidden="true"
-            class="email-form__honeypot"
-          />
-
-          <button type="submit" class="btn btn--primary member-form__submit">
-            <span class="email-form__label">Stay in Touch</span>
-            <span class="email-form__spinner" aria-hidden="true"></span>
-          </button>
-          <p class="email-form__message" data-message role="status" aria-live="polite"></p>
-        </form>
-        <p class="hero__form-note">Quiet updates only. No spam, ever.</p>
+        <div class="hero__cta">
+          <a href="#book" class="btn btn--primary hero__cta-btn">Book Your First Stretch - 40% Off</a>
+          <a href="/pricing" class="btn btn--outline-light hero__cta-btn">View Memberships</a>
+        </div>
+        <p class="hero__form-note">
+          New clients get 40% off their first stretch. Not ready to book?
+          <a href="#signup">Stay in touch</a>.
+        </p>
       </div>
 
       <a href="#experience" class="hero__scroll" aria-label="Scroll to learn more">
