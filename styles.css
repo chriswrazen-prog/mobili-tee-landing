@@ -1751,10 +1751,11 @@ ul, ol { padding: 0; margin: 0; }
 .single-card__sep { color: var(--muted); margin: 0 0.35rem; }
 .single-card__was {
   margin: 0 0 0.85rem;
-  font-size: 0.85rem;
-  color: var(--muted);
+  font-size: 0.98rem;
+  color: var(--charcoal-soft);
   text-decoration: line-through;
-  text-decoration-color: rgba(107, 124, 112, 0.6);
+  text-decoration-color: var(--accent-deep);
+  text-decoration-thickness: 2px;
 }
 .single-card__body { margin: 0; color: var(--charcoal-soft); font-size: 0.98rem; }
 .single-card__cta {
@@ -2174,9 +2175,153 @@ ul, ol { padding: 0; margin: 0; }
 }
 
 /* ============================================================
+   Conversion pass: announcement bar, testimonials, anchoring,
+   risk-reversal, deadline pill
+   ============================================================ */
+:root { --banner-h: 2.6rem; }
+@media (max-width: 600px) { :root { --banner-h: 3.4rem; } }
+
+/* Announcement bar (fixed, above nav; dismissible) */
+.announce {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 55;
+  background: var(--accent);
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--banner-h);
+  box-shadow: 0 1px 0 rgba(36, 61, 48, 0.15);
+}
+.announce[hidden] { display: none; }
+.announce__link {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 2.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--primary-dark);
+  line-height: 1.35;
+}
+.announce__link:hover {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.announce__close {
+  position: absolute;
+  right: 0.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  color: var(--primary-dark);
+  font-size: 1.3rem;
+  line-height: 1;
+  opacity: 0.65;
+}
+.announce__close:hover { opacity: 1; }
+@media (max-width: 600px) {
+  .announce__link { font-size: 0.72rem; padding: 0.45rem 2.5rem; }
+}
+
+/* Offset fixed nav + scroll anchoring + hero/section tops by the banner */
+html { scroll-padding-top: calc(var(--nav-h) + var(--banner-h, 0px)); }
+.topnav { top: var(--banner-h, 0px); }
+.hero { padding-top: calc(var(--nav-h) + var(--banner-h, 0px) + 2rem); }
+.careers-hero { padding-top: calc(var(--nav-h) + var(--banner-h, 0px) + 4rem); }
+
+/* Testimonials (light backgrounds; minimal, no shadowed cards) */
+.testimonials { max-width: 860px; margin: 3rem auto 0; }
+.testimonials[hidden] { display: none; }
+.testimonials__heading {
+  text-align: center;
+  margin: 0 0 2rem;
+  color: var(--muted);
+}
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.25rem;
+}
+@media (min-width: 760px) {
+  .testimonial-grid { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+}
+.testimonial { text-align: center; margin: 0; }
+.testimonial__quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--primary);
+  margin: 0 0 0.9rem;
+}
+.testimonial__quote::before { content: "\201C"; }
+.testimonial__quote::after { content: "\201D"; }
+.testimonial__attr {
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Risk-reversal + booking cue microcopy */
+.reassure {
+  text-align: center;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 1.35rem auto 0;
+  max-width: 640px;
+}
+.book__widget-cue {
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0 0 1.1rem;
+}
+
+/* Anchoring on single-session + tier per-visit comparison */
+.tier-card__compare {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.tier-card--featured .tier-card__compare { color: var(--muted-light); }
+.tier-card__compare strong { color: var(--accent-deep); font-weight: 600; }
+.tier-card--featured .tier-card__compare strong { color: var(--accent-soft); }
+
+/* Deadline pill on the Radley member callout */
+.deadline-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid rgba(201, 169, 97, 0.5);
+  border-radius: 999px;
+  padding: 0.32rem 0.95rem;
+  margin: 0 0 1.3rem;
+}
+
+/* ============================================================
    Print
    ============================================================ */
 @media print {
-  .topnav, .mobile-menu, .hero__scroll, .email-form { display: none !important; }
+  .topnav, .mobile-menu, .hero__scroll, .email-form, .announce { display: none !important; }
   body { background: white; color: black; }
 }

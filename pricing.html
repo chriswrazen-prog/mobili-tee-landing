@@ -33,6 +33,11 @@
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
 
+    <div class="announce" id="announce" role="region" aria-label="Announcement">
+      <a class="announce__link" href="/pricing">Radley Member pricing ends July 31 - lock in your rate for the first 12 months.</a>
+      <button type="button" class="announce__close" data-announce-close aria-label="Dismiss announcement">&times;</button>
+    </div>
+
     <header class="topnav topnav--solid" id="topnav" data-scrolled="true">
       <div class="container topnav__inner">
         <a href="/" class="wordmark wordmark--nav" aria-label="Mobili-Tee home">
@@ -112,11 +117,12 @@
             <p class="eyebrow">Monthly Memberships</p>
             <h2 class="section__title">Pick the rhythm that fits</h2>
             <p class="section__lede">
-              No-contract flexibility. Cancel anytime with 30 days notice. All tiers include
-              personalized session plans and online booking 24/7.
+              All tiers include personalized session plans and online booking 24/7.
               <strong>Radley members get exclusive rates for their first 12 months</strong> - see below.
             </p>
           </div>
+
+          <p class="reassure">No club membership required &middot; No contracts &middot; Cancel anytime with 30 days notice.</p>
 
           <div class="tier-grid">
             <article class="tier-card">
@@ -129,6 +135,7 @@
               <p class="tier-card__body">
                 Best for targeted area work and weekly maintenance.
               </p>
+              <p class="tier-card__compare">That&rsquo;s <strong>$44.75/session</strong> - vs. $55 to drop in.</p>
               <a
                 class="btn btn--primary tier-card__cta"
                 href="https://www.vagaro.com/mobilitee/memberships"
@@ -150,6 +157,7 @@
               <p class="tier-card__body">
                 Our most popular tier. Full-body work and recovery.
               </p>
+              <p class="tier-card__compare">That&rsquo;s <strong>$74.75/session</strong> - vs. $99 to drop in.</p>
               <a
                 class="btn btn--primary tier-card__cta"
                 href="https://www.vagaro.com/mobilitee/memberships"
@@ -170,6 +178,7 @@
               <p class="tier-card__body">
                 Best per-session value. For serious training.
               </p>
+              <p class="tier-card__compare">That&rsquo;s <strong>$68.63/session</strong> - vs. $99 to drop in.</p>
               <a
                 class="btn btn--primary tier-card__cta"
                 href="https://www.vagaro.com/mobilitee/memberships"
@@ -179,6 +188,11 @@
                 Choose Performance
               </a>
             </article>
+          </div>
+
+          <div class="testimonials" data-testimonials hidden>
+            <p class="testimonials__heading eyebrow">In members&rsquo; words</p>
+            <div class="testimonial-grid" data-testimonial-grid></div>
           </div>
         </div>
       </section>
@@ -192,7 +206,7 @@
 
           <div class="single-grid">
             <article class="single-card single-card--featured">
-              <span class="single-card__badge">40% Off</span>
+              <span class="single-card__badge">Save 40%</span>
               <p class="single-card__eyebrow">Your First Stretch</p>
               <p class="single-card__price">
                 <span class="single-card__amount">$33</span><span class="single-card__unit"> / 25-min</span>
@@ -311,6 +325,7 @@
               That's $169, $269, or $499 a month depending on your tier - our thank-you for
               being part of the club where Mobili-Tee began.
             </p>
+            <p><span class="deadline-pill" data-deadline>Offer ends July 31</span></p>
             <a
               href="https://www.vagaro.com/mobilitee/memberships"
               class="btn btn--primary founding-card__cta"

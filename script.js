@@ -472,4 +472,111 @@
     );
     revealTargets.forEach(function (el) { io.observe(el); });
   }
+
+  // ============================================================
+  // Announcement bar (dismissible, remembered in localStorage)
+  // ============================================================
+  (function () {
+    var bar = document.getElementById("announce");
+    if (!bar) return;
+    var KEY = "mt_announce_dismissed_v1";
+    var root = document.documentElement;
+
+    function setBannerH() {
+      root.style.setProperty("--banner-h", bar.offsetHeight + "px");
+    }
+    function clearBanner() {
+      root.style.setProperty("--banner-h", "0px");
+    }
+
+    var dismissed = false;
+    try { dismissed = localStorage.getItem(KEY) === "1"; } catch (_) {}
+
+    if (dismissed) {
+      bar.hidden = true;
+      clearBanner();
+      return;
+    }
+
+    setBannerH();
+    window.addEventListener("resize", setBannerH, { passive: true });
+
+    var close = bar.querySelector("[data-announce-close]");
+    if (close) {
+      close.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        try { localStorage.setItem(KEY, "1"); } catch (_) {}
+        bar.hidden = true;
+        clearBanner();
+      });
+    }
+  })();
+
+  // ============================================================
+  // Deadline pill: append days-remaining to July 31, 2026 (tasteful)
+  // ============================================================
+  (function () {
+    var pill = document.querySelector("[data-deadline]");
+    if (!pill) return;
+    var end = new Date(2026, 6, 31, 23, 59, 59); // month is 0-indexed: 6 = July
+    var now = new Date();
+    var days = Math.ceil((end - now) / 86400000);
+    if (days > 0 && days <= 90) {
+      pill.textContent = "Offer ends July 31 · " + days + (days === 1 ? " day left" : " days left");
+    }
+  })();
+
+  // ============================================================
+  // Testimonials — EDIT THIS ARRAY.
+  // Only entries with approved: true are shown. Placeholders below are
+  // approved: false so nothing publishes until you add REAL member quotes.
+  // Swap in genuine quotes, set approved: true, and they go live on next deploy.
+  // ============================================================
+  var TESTIMONIALS = [
+    {
+      quote: "Replace with a real member quote about how a session changed their game or their day.",
+      name: "First L.",
+      role: "Golf member, Radley Run",
+      approved: false
+    },
+    {
+      quote: "Replace with a real member quote — specific and understated works best.",
+      name: "First L.",
+      role: "Tennis member, Radley Run",
+      approved: false
+    },
+    {
+      quote: "Replace with a real member quote about recovery, mobility, or the experience.",
+      name: "First L.",
+      role: "Member, Radley Run",
+      approved: false
+    }
+  ];
+
+  (function () {
+    function esc(s) {
+      return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+    var approved = TESTIMONIALS.filter(function (t) { return t && t.approved; }).slice(0, 3);
+    var boxes = document.querySelectorAll("[data-testimonials]");
+    if (!boxes.length || !approved.length) return; // stays hidden if no real quotes
+    boxes.forEach(function (box) {
+      var grid = box.querySelector("[data-testimonial-grid]");
+      if (!grid) return;
+      grid.innerHTML = approved
+        .map(function (t) {
+          return (
+            '<figure class="testimonial">' +
+            '<blockquote class="testimonial__quote">' + esc(t.quote) + "</blockquote>" +
+            '<figcaption class="testimonial__attr">' + esc(t.name) + " · " + esc(t.role) + "</figcaption>" +
+            "</figure>"
+          );
+        })
+        .join("");
+      box.hidden = false;
+    });
+  })();
 })();
