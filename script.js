@@ -535,22 +535,25 @@
   // ============================================================
   var TESTIMONIALS = [
     {
-      quote: "Replace with a real member quote about how a session changed their game or their day.",
-      name: "First L.",
-      role: "Golf member, Radley Run",
-      approved: false
-    },
-    {
-      quote: "Replace with a real member quote — specific and understated works best.",
-      name: "First L.",
-      role: "Tennis member, Radley Run",
-      approved: false
-    },
-    {
-      quote: "Replace with a real member quote about recovery, mobility, or the experience.",
-      name: "First L.",
+      quote:
+        "After years of long days, busy schedules, and not giving enough attention to recovery, my body was definitely feeling it. I was constantly tight and had lost a lot of mobility without even realizing it. The team at Mobili-Tee has helped me feel looser, move more comfortably, and get back to feeling like myself. Every session has been worth it. Whether you're active or just dealing with the wear and tear of everyday life, I can't recommend Mobili-Tee enough.",
+      name: "Brett Stoutland",
       role: "Member, Radley Run",
-      approved: false
+      approved: true
+    },
+    {
+      quote:
+        "I've been working with Jen at Mobili-Tee for two years now, and the results speak for themselves. Consistent stretching sessions have eliminated my lower back tightness, resolved chronic tightness in my Achilles, and relieved the foot pain I used to wake up with every morning. Jen is knowledgeable, attentive, and genuinely invested in helping her clients move and feel better. I can't recommend her enough.",
+      name: "Ryan McMahon",
+      role: "Member, Radley Run",
+      approved: true
+    },
+    {
+      quote:
+        "I just turned 40, and between family and work, life is hectic - I haven't had the time to take care of my body the way I used to. Mobili-Tee has been amazing for tackling the effects of this lifestyle: hours sitting in a chair and little time spent on myself. I'd highly recommend it to anyone in the same situation, or anyone for that matter.",
+      name: "Dave Hissey",
+      role: "Member, Radley Run",
+      approved: true
     }
   ];
 
