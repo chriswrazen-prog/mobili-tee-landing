@@ -256,17 +256,22 @@ ul, ol { padding: 0; margin: 0; }
 }
 .topnav__links {
   display: none;
-  gap: 1.85rem;
+  gap: 1.3rem;
   align-items: center;
 }
 .topnav__links a {
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
+  font-size: 0.82rem;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--cream);
   font-weight: 500;
   transition: color 0.2s var(--ease);
   padding: 0.5rem 0;
+  white-space: nowrap;
+}
+@media (min-width: 880px) and (max-width: 1040px) {
+  .topnav__links { gap: 1.05rem; }
+  .topnav__links a { font-size: 0.78rem; letter-spacing: 0.05em; }
 }
 .topnav__links a:hover { color: var(--accent); }
 
