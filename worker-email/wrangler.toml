@@ -1,0 +1,12 @@
+name = "mobili-tee-email-forward"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# No HTTP endpoint — this Worker only handles inbound email.
+workers_dev = false
+
+# Everyone who should receive mail sent to any @mobili-tee.com address.
+# Each address must be VERIFIED under Email Routing -> Destination addresses
+# before it will receive anything.
+[vars]
+FORWARD_TO = "chriswrazen@gmail.com,kwrazen@gmail.com,mclennanj96@gmail.com"

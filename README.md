@@ -18,6 +18,62 @@ Form submission → Cloudflare Worker → Resend → `chriswrazen@gmail.com`.
 Submissions also persist in the Cloudflare KV namespace `SUBSCRIBERS` (id `fda858afe7a147f3a67c539d1b21cc70`).
 Sender: `Mobili-Tee <updates@mobili-tee.com>` (verified Resend domain).
 
+Two separate paths deliver mail, and adding a person means touching both:
+
+| Path | What it carries | Where the recipient list lives |
+| ---- | --------------- | ------------------------------ |
+| Cloudflare Email Routing → `worker-email/` | Anything a human sends to `*@mobili-tee.com` | `FORWARD_TO` in [worker-email/wrangler.toml](worker-email/wrangler.toml) |
+| Worker → Resend | Website form submissions (signups, briefings, applications) | `NOTIFY_TO` + `NOTIFY_CC` secrets on the `mobili-tee-form` Worker |
+
+### Address map
+
+Custom address rules are matched first; anything else falls through to the
+catch-all, which fans out to everyone in `FORWARD_TO`.
+
+| Address | Goes to |
+| ------- | ------- |
+| `jen@mobili-tee.com` | Jen |
+| `kristy@mobili-tee.com` | Kristy |
+| `chriswrazen@mobili-tee.com` | Chris + Kristy |
+| `notifications@mobili-tee.com` | Chris + Kristy |
+| *anything else* | catch-all Worker → Chris + Kristy + Jen |
+
+> ⚠️ `chriswrazen@` and `notifications@` are **grandfathered** two-destination
+> forward rules. Cloudflare no longer accepts more than one destination per
+> forward action (`HTTP 422: forward action must contain exactly one
+> destination`), so re-saving either rule — from the dashboard or the API —
+> will collapse it to a single recipient and it cannot be recreated. Don't edit
+> them. If they ever need to change, convert them to Worker rules instead.
+
+### Inbound forwarding — `worker-email/`
+
+Cloudflare's native catch-all forwards to **exactly one** verified destination
+address, so the catch-all points at the `mobili-tee-email-forward` Worker
+instead, which fans each message out to everyone in `FORWARD_TO`.
+
+**To add a recipient:**
+
+1. Cloudflare dashboard → **mobili-tee.com** → **Email** → **Email Routing** →
+   **Destination addresses** → **Add address**. Cloudflare emails them a
+   verification link; **forwarding does not start until they click it.**
+2. Add the address to `FORWARD_TO` in [worker-email/wrangler.toml](worker-email/wrangler.toml).
+3. Deploy:
+   ```bash
+   cd worker-email
+   npx wrangler deploy
+   ```
+4. First time only: Email Routing → **Routing rules** → **Catch-all address** →
+   set the action to **Send to a Worker** → `mobili-tee-email-forward` → save.
+
+Watch live delivery with `npx wrangler tail mobili-tee-email-forward`.
+
+**To copy someone on form notifications too:**
+```bash
+cd worker
+npx wrangler secret put NOTIFY_CC   # comma-separated, e.g. jen@example.com
+npx wrangler deploy
+```
+
 ---
 
 ## Repo layout
