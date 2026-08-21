@@ -1,5 +1,5 @@
 /* ============================================================
-   Mobili-Tee Landing — Design tokens
+   Mobili-Tee Landing - Design tokens
    ============================================================ */
 :root {
   --primary: #2f4f3e;
@@ -100,7 +100,7 @@ ul, ol { padding: 0; margin: 0; }
   border-radius: var(--radius);
 }
 
-/* Universal focus ring — gold, 2px */
+/* Universal focus ring - gold, 2px */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -270,8 +270,8 @@ ul, ol { padding: 0; margin: 0; }
   white-space: nowrap;
 }
 @media (min-width: 880px) and (max-width: 1040px) {
-  .topnav__links { gap: 1.05rem; }
-  .topnav__links a { font-size: 0.78rem; letter-spacing: 0.05em; }
+  .topnav__links { gap: 0.75rem; }
+  .topnav__links a { font-size: 0.73rem; letter-spacing: 0.03em; }
 }
 .topnav__links a:hover { color: var(--accent); }
 
@@ -1120,7 +1120,7 @@ ul, ol { padding: 0; margin: 0; }
 }
 
 /* ============================================================
-   Member form (expanded hero signup) — dark hero variant
+   Member form (expanded hero signup) - dark hero variant
    ============================================================ */
 .member-form {
   position: relative;
@@ -1173,7 +1173,7 @@ ul, ol { padding: 0; margin: 0; }
 }
 .member-form[data-success="true"] .member-form__success { display: block; }
 
-/* Field — dark variant for hero */
+/* Field - dark variant for hero */
 .field--dark label {
   color: var(--accent-soft);
   font-size: 0.72rem;
@@ -2330,3 +2330,159 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--banner-h, 0px)); }
   .topnav, .mobile-menu, .hero__scroll, .email-form, .announce { display: none !important; }
   body { background: white; color: black; }
 }
+
+
+/* ============================================================
+   Reviews section (Google rating badge + quotes)
+   ============================================================ */
+.anchor-alias { display: block; height: 0; overflow: hidden; }
+
+.review-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0.9rem 1.4rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.review-badge:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.review-badge__stars { display: inline-flex; color: var(--accent); }
+.review-badge__stars svg { width: 116px; height: 23px; display: block; }
+.review-star { fill: currentColor; }
+.review-star--empty { fill: rgba(44, 44, 44, 0.16); }
+.review-star--partial { fill: url(#star-partial); }
+.review-badge__text { font-size: 0.94rem; color: var(--charcoal-soft); }
+.review-badge__text strong { color: var(--primary); font-weight: 700; }
+
+.review-block { max-width: 980px; margin: 2.9rem auto 0; }
+.review-block[hidden] { display: none; }
+.review-block--members {
+  margin-top: 3.1rem;
+  padding-top: 2.6rem;
+  border-top: 1px solid var(--border);
+}
+.review-block .testimonial-grid { grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 760px) {
+  .review-block .testimonial-grid {
+    grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+    gap: 2.25rem;
+  }
+}
+.review-block .testimonial__quote { font-size: 1.04rem; }
+.reviews__more { text-align: center; margin: 2.3rem 0 0; font-size: 0.9rem; }
+.reviews__more a { color: var(--primary); font-weight: 600; }
+.reviews__more a:hover { color: var(--accent-deep); }
+
+/* ============================================================
+   Meet the team
+   ============================================================ */
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+  margin-top: 2.8rem;
+}
+@media (min-width: 720px) {
+  .team-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+}
+.team-card {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.28s var(--ease), transform 0.28s var(--ease);
+}
+.team-card:hover { box-shadow: var(--shadow-card-hover); transform: translateY(-3px); }
+.team-card__photo {
+  aspect-ratio: 1 / 1;
+  background: var(--cream-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.team-card__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Placeholder art is a silhouette, not a photo: contain it so the slot reads as
+   deliberate. Real headshots (.jpg/.png) still cover the frame. */
+.team-card__photo img[src$=".svg"] { object-fit: contain; padding: 14%; opacity: 0.5; }
+.team-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+  padding: 1.4rem 1.4rem 1.6rem;
+}
+.team-card__name {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--primary);
+}
+.team-card__role {
+  margin: 0;
+  font-size: 0.71rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+}
+.team-card__tag {
+  align-self: flex-start;
+  margin: 0.2rem 0 0;
+  padding: 0.32rem 0.72rem;
+  border-radius: 999px;
+  background: rgba(201, 169, 97, 0.18);
+  color: var(--accent-deep);
+  font-size: 0.69rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+}
+.team-card__bio {
+  margin: 0.4rem 0 1.3rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--charcoal-soft);
+}
+.team-card__cta { margin-top: auto; align-self: flex-start; }
+
+/* ============================================================
+   Footer social
+   ============================================================ */
+.footer__follow {
+  margin: 1.05rem 0 0.8rem;
+  max-width: 320px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--muted-light);
+}
+.footer__follow a { color: var(--accent-soft); font-weight: 600; }
+.footer__follow a:hover { color: var(--accent); }
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted-light);
+  text-decoration: none;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  transition: color 0.2s var(--ease);
+}
+.social-link:hover { color: var(--accent); }
+.social-link svg { width: 20px; height: 20px; flex: none; }

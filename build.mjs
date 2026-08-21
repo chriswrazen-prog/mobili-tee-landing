@@ -112,14 +112,14 @@ async function main() {
   // Append the new, more precise cache rules.
   if (!headers.endsWith("\n")) headers += "\n";
   headers += `
-# Hashed assets — content addressed, safe to cache forever.
+# Hashed assets - content addressed, safe to cache forever.
 /styles.*.css
   Cache-Control: public, max-age=31536000, immutable
 
 /script.*.js
   Cache-Control: public, max-age=31536000, immutable
 
-# HTML — never cached so new hashed references are picked up immediately.
+# HTML - never cached so new hashed references are picked up immediately.
 /
   Cache-Control: public, max-age=0, must-revalidate
 
@@ -157,7 +157,7 @@ async function main() {
     log(`wrote ${page}`);
   }
 
-  log(`done — output in ${path.relative(ROOT, OUT)}/`);
+  log(`done - output in ${path.relative(ROOT, OUT)}/`);
 }
 
 main().catch((err) => {

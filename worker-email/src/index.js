@@ -37,7 +37,7 @@ export default {
 
     if (failed.length) {
       // Partial delivery: at least one inbox has it, so don't reject the
-      // message — just surface the miss in `wrangler tail`.
+      // message - just surface the miss in `wrangler tail`.
       console.error(`Forward failed for: ${failed.join(", ")}`);
     }
   }

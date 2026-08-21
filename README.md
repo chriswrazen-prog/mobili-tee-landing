@@ -1,6 +1,6 @@
 # Mobili-Tee Landing
 
-A premium "coming soon" marketing page for **Mobili-Tee** — a private-club assisted stretching amenity launching at Radley Run Country Club in 2026.
+A premium "coming soon" marketing page for **Mobili-Tee** - a private-club assisted stretching amenity launching at Radley Run Country Club in 2026.
 
 Plain HTML + CSS + a sliver of vanilla JS. No build step. Deploys to Cloudflare Pages.
 
@@ -41,11 +41,11 @@ catch-all, which fans out to everyone in `FORWARD_TO`.
 > ⚠️ `chriswrazen@` and `notifications@` are **grandfathered** two-destination
 > forward rules. Cloudflare no longer accepts more than one destination per
 > forward action (`HTTP 422: forward action must contain exactly one
-> destination`), so re-saving either rule — from the dashboard or the API —
+> destination`), so re-saving either rule - from the dashboard or the API -
 > will collapse it to a single recipient and it cannot be recreated. Don't edit
 > them. If they ever need to change, convert them to Worker rules instead.
 
-### Inbound forwarding — `worker-email/`
+### Inbound forwarding - `worker-email/`
 
 Cloudflare's native catch-all forwards to **exactly one** verified destination
 address, so the catch-all points at the `mobili-tee-email-forward` Worker
@@ -110,7 +110,7 @@ All copy lives in [index.html](index.html). Open it in any text editor and edit 
 
 **Brand colors** (e.g. swap the gold) are defined as CSS variables at the top of [styles.css](styles.css) under `:root { … }`. Change the value once and it propagates everywhere.
 
-**Example — change the hero tagline:**
+**Example - change the hero tagline:**
 1. Open `index.html`.
 2. Find `A Premium On-Property Stretch &amp; Recovery Amenity`.
 3. Replace it with your new copy.
@@ -119,19 +119,19 @@ All copy lives in [index.html](index.html). Open it in any text editor and edit 
 
 ---
 
-## Email capture — how it works
+## Email capture - how it works
 
 `script.js` looks for one of two endpoints, in this order:
 
-1. **`FORM_ENDPOINT`** — your Cloudflare Worker URL (preferred, see below).
-2. **`FORMSPREE_ID`** — a [Formspree](https://formspree.io) form ID (3-minute setup, free tier).
+1. **`FORM_ENDPOINT`** - your Cloudflare Worker URL (preferred, see below).
+2. **`FORMSPREE_ID`** - a [Formspree](https://formspree.io) form ID (3-minute setup, free tier).
 
 Both are blank by default, so the form will currently show a success state without sending anything. **Pick one** and fill in the constant near the top of `script.js`.
 
-### Option A — Formspree (fastest, no code)
+### Option A - Formspree (fastest, no code)
 
 1. Sign up at https://formspree.io (free).
-2. Create a new form. Copy the form ID (the slug after `/f/` — e.g. `xpwrlbjk`).
+2. Create a new form. Copy the form ID (the slug after `/f/` - e.g. `xpwrlbjk`).
 3. In `script.js`, set:
    ```js
    var FORMSPREE_ID = "xpwrlbjk";
@@ -140,7 +140,7 @@ Both are blank by default, so the form will currently show a success state witho
 
 To change the recipient address: log into Formspree → form settings → recipients.
 
-### Option B — Cloudflare Worker (preferred, custom)
+### Option B - Cloudflare Worker (preferred, custom)
 
 The `worker/` folder is a self-contained Worker that:
 - validates the email,
@@ -176,7 +176,7 @@ wrangler secret put NOTIFY_TO
 # paste the new address when prompted
 ```
 
-> ⚠️ Don't set `NOTIFY_TO` to anything `@mobili-tee.com` while Cloudflare Email Routing is enabled — Email Routing rejects mail where the sender and recipient share the same domain (loop prevention). Use an external address (gmail, your own Workspace mailbox on a different domain, etc.). If you later set up Google Workspace MX records on `mobili-tee.com`, that replaces Email Routing and you can use `notifications@mobili-tee.com` again.
+> ⚠️ Don't set `NOTIFY_TO` to anything `@mobili-tee.com` while Cloudflare Email Routing is enabled - Email Routing rejects mail where the sender and recipient share the same domain (loop prevention). Use an external address (gmail, your own Workspace mailbox on a different domain, etc.). If you later set up Google Workspace MX records on `mobili-tee.com`, that replaces Email Routing and you can use `notifications@mobili-tee.com` again.
 
 **To export collected emails:**
 ```bash
@@ -230,9 +230,9 @@ wrangler pages deploy . --project-name=mobili-tee --branch=main --commit-dirty=t
 
 | Token       | Hex       | Usage                          |
 | ----------- | --------- | ------------------------------ |
-| `--primary` | `#2F4F3E` | Forest green — dominant        |
-| `--secondary` | `#84B59F` | Sage green — accents           |
-| `--accent`  | `#C9A961` | Warm gold — accents only       |
+| `--primary` | `#2F4F3E` | Forest green - dominant        |
+| `--secondary` | `#84B59F` | Sage green - accents           |
+| `--accent`  | `#C9A961` | Warm gold - accents only       |
 | `--cream`   | `#F5F1E8` | Warm off-white background      |
 | `--charcoal` | `#2C2C2C` | Body text                      |
 | `--muted`   | `#7A8B7F` | Secondary text                 |

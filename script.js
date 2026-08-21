@@ -1,4 +1,4 @@
-/* Mobili-Tee landing — vanilla JS */
+/* Mobili-Tee landing - vanilla JS */
 (function () {
   "use strict";
 
@@ -53,7 +53,7 @@
     if (!input || !button) return;
 
     if (honeypot && honeypot.value) {
-      // Bot — silently succeed without sending.
+      // Bot - silently succeed without sending.
       showSuccess(form, "Thanks - you’re on the list. We’ll keep you posted, and you can book anytime at mobili-tee.com.");
       return;
     }
@@ -111,7 +111,7 @@
   });
 
   // ============================================================
-  // Member form (expanded hero signup) — name + email + phone + club + context
+  // Member form (expanded hero signup) - name + email + phone + club + context
   // ============================================================
   async function submitMemberForm(event) {
     event.preventDefault();
@@ -196,7 +196,7 @@
     var honeypot = form.querySelector('input[name="company"]');
 
     if (honeypot && honeypot.value) {
-      showSuccess(form, "Thanks — we’ll be in touch shortly.");
+      showSuccess(form, "Thanks - we’ll be in touch shortly.");
       return;
     }
 
@@ -335,7 +335,7 @@
   });
 
   // ============================================================
-  // Sticky nav — toggle background after 80px scroll
+  // Sticky nav - toggle background after 80px scroll
   // ============================================================
   var topnav = document.getElementById("topnav");
   if (topnav) {
@@ -351,7 +351,7 @@
   }
 
   // ============================================================
-  // Mobile menu — open/close, focus trap, esc-to-close
+  // Mobile menu - open/close, focus trap, esc-to-close
   // ============================================================
   var mobileMenu = document.getElementById("mobile-menu");
   var menuToggle = document.querySelector("[data-menu-toggle]");
@@ -514,38 +514,58 @@
   })();
 
   // ============================================================
-  // Deadline pill: append days-remaining to July 31, 2026 (tasteful)
+  // Reviews - EDIT THIS ARRAY.
+  // Only entries with approved: true are shown. Entries with
+  // source: "google" render first in the Google reviews grid; source: "member"
+  // entries render below under "In members' words".
   // ============================================================
-  (function () {
-    var pill = document.querySelector("[data-deadline]");
-    if (!pill) return;
-    var end = new Date(2026, 6, 31, 23, 59, 59); // month is 0-indexed: 6 = July
-    var now = new Date();
-    var days = Math.ceil((end - now) / 86400000);
-    if (days > 0 && days <= 90) {
-      pill.textContent = "Offer ends July 31 · " + days + (days === 1 ? " day left" : " days left");
-    }
-  })();
-
-  // ============================================================
-  // Testimonials — EDIT THIS ARRAY.
-  // Only entries with approved: true are shown. Placeholders below are
-  // approved: false so nothing publishes until you add REAL member quotes.
-  // Swap in genuine quotes, set approved: true, and they go live on next deploy.
-  // ============================================================
-  var TESTIMONIALS = [
+  var REVIEWS = [
+    {
+      quote:
+        "Assisted stretching has been an essential part of my stay healthy and limber routine. As a sixty plus year old woman who plays pickleball 3-4 times per week, stretching has addressed the areas needing the most attention for recovery. Highly recommend!",
+      name: "Santa Kraft",
+      role: "Google review",
+      source: "google",
+      approved: true
+    },
+    {
+      quote:
+        "I had my first session with Tom last Saturday and was so impressed that I signed up for a weekly membership.",
+      name: "Kevin Lahn",
+      role: "Google review",
+      source: "google",
+      approved: true
+    },
+    {
+      quote:
+        "The practitioners really know what they're doing. Every session is tailored to what my body needs that day, and I always leave feeling looser and moving better than when I walked in.",
+      name: "Thomas Padula",
+      role: "Google review",
+      source: "google",
+      approved: true
+    },
+    {
+      quote:
+        "If you like feeling better and energetic you should test drive Mobili-Tee. Tom, Jennifer and Amelia make you feel welcomed and comfortable.",
+      name: "Cari Wolfe",
+      role: "Google review",
+      source: "google",
+      approved: true
+    },
+    {
+      quote:
+        "Great experience every time. Highly suggest getting on a weekly routine and you'll see results in pain relief and range of motion.",
+      name: "Ryan McMahon",
+      role: "Google review",
+      source: "google",
+      approved: true
+    },
     {
       quote:
         "After years of long days, busy schedules, and not giving enough attention to recovery, my body was definitely feeling it. I was constantly tight and had lost a lot of mobility without even realizing it. The team at Mobili-Tee has helped me feel looser, move more comfortably, and get back to feeling like myself. Every session has been worth it. Whether you're active or just dealing with the wear and tear of everyday life, I can't recommend Mobili-Tee enough.",
       name: "Brett Stoutland",
       role: "Member, Radley Run",
-      approved: true
-    },
-    {
-      quote:
-        "I've been working with Jen at Mobili-Tee for two years now, and the results speak for themselves. Consistent stretching sessions have eliminated my lower back tightness, resolved chronic tightness in my Achilles, and relieved the foot pain I used to wake up with every morning. Jen is knowledgeable, attentive, and genuinely invested in helping her clients move and feel better. I can't recommend her enough.",
-      name: "Ryan McMahon",
-      role: "Member, Radley Run",
+      source: "member",
       approved: true
     },
     {
@@ -553,7 +573,19 @@
         "I just turned 40, and between family and work, life is hectic - I haven't had the time to take care of my body the way I used to. Mobili-Tee has been amazing for tackling the effects of this lifestyle: hours sitting in a chair and little time spent on myself. I'd highly recommend it to anyone in the same situation, or anyone for that matter.",
       name: "Dave Hissey",
       role: "Member, Radley Run",
+      source: "member",
       approved: true
+    },
+    // Ryan McMahon also left this longer testimonial. His Google review above
+    // runs instead so the same name does not appear twice on the page. Flip
+    // this to approved: true (and drop his Google entry) to swap them.
+    {
+      quote:
+        "I've been working with Jen at Mobili-Tee for two years now, and the results speak for themselves. Consistent stretching sessions have eliminated my lower back tightness, resolved chronic tightness in my Achilles, and relieved the foot pain I used to wake up with every morning. Jen is knowledgeable, attentive, and genuinely invested in helping her clients move and feel better. I can't recommend her enough.",
+      name: "Ryan McMahon",
+      role: "Member, Radley Run",
+      source: "member",
+      approved: false
     }
   ];
 
@@ -563,13 +595,18 @@
         return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
       });
     }
-    var approved = TESTIMONIALS.filter(function (t) { return t && t.approved; }).slice(0, 3);
-    var boxes = document.querySelectorAll("[data-testimonials]");
-    if (!boxes.length || !approved.length) return; // stays hidden if no real quotes
-    boxes.forEach(function (box) {
-      var grid = box.querySelector("[data-testimonial-grid]");
-      if (!grid) return;
-      grid.innerHTML = approved
+
+    function cardsFor(source) {
+      return REVIEWS.filter(function (r) {
+        return r && r.approved && r.source === source;
+      });
+    }
+
+    function paint(gridSel, list, wrapperSel) {
+      var grid = document.querySelector(gridSel);
+      var wrapper = document.querySelector(wrapperSel);
+      if (!grid || !wrapper || !list.length) return;
+      grid.innerHTML = list
         .map(function (t) {
           return (
             '<figure class="testimonial">' +
@@ -579,7 +616,10 @@
           );
         })
         .join("");
-      box.hidden = false;
-    });
+      wrapper.hidden = false;
+    }
+
+    paint('[data-review-grid="google"]', cardsFor("google"), "[data-reviews]");
+    paint('[data-review-grid="member"]', cardsFor("member"), "[data-reviews-members]");
   })();
 })();
