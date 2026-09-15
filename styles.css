@@ -1770,6 +1770,66 @@ ul, ol { padding: 0; margin: 0; }
   font-size: 0.86rem;
 }
 
+/* Stretch packages (between memberships and singles) */
+.section--packages { background: var(--paper); }
+.package-groups {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.75rem;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+@media (min-width: 1024px) { .package-groups { grid-template-columns: 1fr 1fr; gap: 2.5rem; } }
+.package-group__title {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+  margin: 0 0 1.1rem;
+}
+.package-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 560px) { .package-grid { grid-template-columns: 1fr 1fr; } }
+.package-card .single-card__price { margin-bottom: 0.2rem; }
+.package-card__rate {
+  margin: 0 0 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent-deep);
+}
+.package-card .tier-card__compare { margin-top: 0.5rem; }
+.package-card .single-card__cta { margin-top: 1.5rem; }
+
+/* Small inline tag next to a section eyebrow (e.g. "Best value" on memberships) */
+.value-tag {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.55rem;
+  background: var(--accent);
+  color: var(--primary-dark);
+  font-family: var(--font-sans);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  padding: 0.24rem 0.7rem;
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Pricing hero: one-line comparison under the intro */
+.careers-hero__lede--compare {
+  margin-top: -1.1rem;
+  color: var(--accent-soft);
+}
+
 /* Promo code chip + banners */
 .promo-code {
   display: inline-block;
