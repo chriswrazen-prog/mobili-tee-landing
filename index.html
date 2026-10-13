@@ -140,7 +140,7 @@
             "name": "Is there a first-time discount?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. New clients get 40% off their first stretch with promo code FIRSTSTRETCH at checkout - $33 for a 25-minute session, $59.40 for a 50-minute session."
+              "text": "Yes. New clients get their first 25-minute stretch free with promo code FIRSTSTRETCH at checkout. One per client. After that, single sessions are $55 for 25 minutes and $99 for 50, or save with a package or membership."
             }
           },
           {
@@ -216,7 +216,7 @@
     <a class="skip-link" href="#main">Skip to main content</a>
 
     <div class="announce" id="announce" role="region" aria-label="Announcement">
-      <a class="announce__link" href="#reviews">Rated 4.9 stars on Google by the members of Radley Run. New clients save 40% on their first stretch.</a>
+      <a class="announce__link" href="#reviews">Rated 4.9 stars on Google by the members of Radley Run. New clients get their first 25-minute stretch free.</a>
       <button type="button" class="announce__close" data-announce-close aria-label="Dismiss announcement">&times;</button>
     </div>
 
@@ -234,6 +234,19 @@
           <a href="/pricing">Pricing</a>
           <a href="#for-clubs">For Clubs</a>
           <a href="#book" class="topnav__cta">Book</a>
+          <a
+            class="topnav__social"
+            href="https://www.instagram.com/mobili_tee"
+            target="_blank"
+            rel="noopener"
+            aria-label="Mobili-Tee on Instagram"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.25" cy="6.75" r="1.15" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
         </nav>
         <button
           class="topnav__toggle"
@@ -279,6 +292,20 @@
           <a href="/pricing">Pricing</a>
           <a href="#for-clubs">For Clubs</a>
           <a href="#book" class="topnav__cta">Book</a>
+          <a
+            class="mobile-menu__social"
+            href="https://www.instagram.com/mobili_tee"
+            target="_blank"
+            rel="noopener"
+            aria-label="Mobili-Tee on Instagram"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.25" cy="6.75" r="1.15" fill="currentColor" stroke="none" />
+            </svg>
+            <span>Instagram</span>
+          </a>
         </nav>
       </div>
     </div>
@@ -315,11 +342,11 @@
         </p>
 
         <div class="hero__cta">
-          <a href="#book" class="btn btn--primary hero__cta-btn">Book Your First Stretch - 40% Off</a>
+          <a href="#book" class="btn btn--primary hero__cta-btn">Claim Your Free First Stretch</a>
           <a href="/pricing" class="btn btn--outline-light hero__cta-btn">View Memberships</a>
         </div>
         <p class="hero__form-note">
-          Move better after one session. New clients save 40% on their first stretch.
+          Move better after one session. Your first 25-minute stretch is free.
         </p>
         <p class="hero__form-note">
           Not ready to book? <a href="#signup">Stay in touch</a>.
@@ -339,15 +366,15 @@
             <h2 class="section__title">Reserve your session</h2>
             <p class="section__lede">
               Now open at Radley Run Country Club - stop by and see the space. New client? Your
-              first stretch is <strong>40% off</strong> with promo code below. Open to everyone -
-              members and non-members alike, no club logins, no club account billing.
+              first 25-minute stretch is <strong>free</strong> with the promo code below. Open to
+              everyone - members and non-members alike, no club logins, no club account billing.
             </p>
           </div>
 
           <div class="book__promo" role="note">
-            New to Mobili-Tee? Enter promo code <span class="promo-code">FIRSTSTRETCH</span> at
-            checkout for <strong>40% off</strong> your first stretch - $33 for 25 minutes,
-            $59.40 for 50.
+            New to Mobili-Tee? Your first 25-minute stretch is free. Book online and enter promo
+            code <span class="promo-code">FIRSTSTRETCH</span> at checkout. One per client, first
+            visit only.
           </div>
 
           <p class="book__widget-cue">Real-time availability - book in under two minutes.</p>
@@ -364,7 +391,7 @@
               The booking widget above shows single sessions. Looking for recurring sessions and
               the best per-visit rates? <strong>Radley members receive exclusive rates for their
               first 12 months</strong>. Prefer to prepay a few sessions at a time? See our
-              <a href="/pricing#packages">stretch packages</a>.
+              <a href="#packages">stretch packages</a>.
             </p>
             <a
               class="btn btn--primary"
@@ -372,6 +399,46 @@
               target="_blank"
               rel="noopener"
             >View &amp; Join Memberships</a>
+          </div>
+
+          <div class="book__packages" id="packages">
+            <p class="eyebrow">Stretch Packages</p>
+            <p class="book__packages-text">
+              Buy a few at a time, use them whenever you like. Sessions are valid for 12 months
+              from purchase. No monthly commitment.
+            </p>
+            <ul class="package-list">
+              <li class="package-list__item">
+                <span class="package-list__name">25-Minute 5-Pack</span>
+                <span class="package-list__price">$250</span>
+                <span class="package-list__rate">$50 per stretch</span>
+              </li>
+              <li class="package-list__item">
+                <span class="package-list__name">25-Minute 10-Pack</span>
+                <span class="package-list__price">$475</span>
+                <span class="package-list__rate">$47.50 per stretch</span>
+              </li>
+              <li class="package-list__item">
+                <span class="package-list__name">50-Minute 5-Pack</span>
+                <span class="package-list__price">$450</span>
+                <span class="package-list__rate">$90 per stretch</span>
+              </li>
+              <li class="package-list__item">
+                <span class="package-list__name">50-Minute 10-Pack</span>
+                <span class="package-list__price">$850</span>
+                <span class="package-list__rate">$85 per stretch</span>
+              </li>
+            </ul>
+            <a
+              class="btn btn--primary"
+              href="https://www.vagaro.com/mobilitee/memberships"
+              target="_blank"
+              rel="noopener"
+            >Buy Package</a>
+            <p class="book__packages-note">
+              Packages are tied to one client account. Full details on the
+              <a href="/pricing#packages">pricing page</a>.
+            </p>
           </div>
 
           <p class="book__note">
@@ -412,7 +479,7 @@
                 <path class="review-star review-star--partial" transform="translate(96 0)" d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.45l-5.81 3.05 1.11-6.47-4.7-4.58 6.5-.95z" />
               </svg>
             </span>
-            <span class="review-badge__text"><strong>4.9 on Google</strong> - 14 reviews and counting</span>
+            <span class="review-badge__text"><strong>4.9 on Google</strong><span data-review-count></span></span>
           </a>
 
           <div class="review-block" data-reviews hidden>
@@ -715,7 +782,6 @@
               <figcaption class="team-card__body">
                 <h3 class="team-card__name">Emilia Straface</h3>
                 <p class="team-card__role">Mobility Specialist</p>
-                <p class="team-card__tag">Newest team member - great availability this month</p>
                 <p class="team-card__bio">Emilia brings fresh energy and a genuinely warm welcome, and members tend to leave her sessions looser, taller, and smiling.</p>
                 <a
                   class="btn btn--outline team-card__cta"
@@ -726,6 +792,29 @@
               </figcaption>
             </figure>
           </div>
+        </div>
+      </section>
+
+      <section class="section section--follow" id="instagram">
+        <div class="container container--narrow">
+          <p class="eyebrow eyebrow--light">Instagram</p>
+          <h2 class="section__title section__title--light">Follow along</h2>
+          <p class="section__lede">
+            Stretches, tips, and life at Radley Run. Follow @mobili_tee for our latest videos.
+          </p>
+          <a
+            class="btn btn--primary follow__cta"
+            href="https://www.instagram.com/mobili_tee"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg class="follow__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.25" cy="6.75" r="1.15" fill="currentColor" stroke="none" />
+            </svg>
+            Follow on Instagram
+          </a>
         </div>
       </section>
 
@@ -927,9 +1016,10 @@
               <summary>Is there a first-time discount?</summary>
               <div class="faq__body">
                 <p>
-                  Yes. New clients get 40% off their first stretch with promo code
-                  <span class="promo-code">FIRSTSTRETCH</span> at checkout - $33 for a
-                  25-minute session, $59.40 for a 50-minute session.
+                  Yes. New clients get their first 25-minute stretch free with promo code
+                  <span class="promo-code">FIRSTSTRETCH</span> at checkout. One per client.
+                  After that, single sessions are $55 for 25 minutes and $99 for 50, or save
+                  with a package or membership.
                 </p>
               </div>
             </details>

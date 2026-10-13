@@ -519,6 +519,14 @@
   // source: "google" render first in the Google reviews grid; source: "member"
   // entries render below under "In members' words".
   // ============================================================
+  // Google review count shown in the Reviews badge. EDIT THIS when the count changes.
+  var GOOGLE_REVIEW_COUNT = 15;
+  (function () {
+    var el = document.querySelector("[data-review-count]");
+    if (!el) return;
+    el.textContent = " - " + GOOGLE_REVIEW_COUNT + " reviews and counting";
+  })();
+
   var REVIEWS = [
     {
       quote:
